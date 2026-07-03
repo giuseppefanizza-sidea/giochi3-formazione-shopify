@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 1 — Prodotti, Collezioni e Contenuti | Giochi3</title>
+    <style>
+        :root {
+            --color-primary: #E63946;
+            --color-primary-dark: #C1121F;
+            --color-secondary: #457B9D;
+            --color-secondary-dark: #1D3557;
+            --color-accent: #F4A261;
+            --color-light: #F1FAEE;
+            --color-dark: #1D3557;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F8F9FA;
+            --color-gray-200: #E9ECEF;
+            --color-gray-300: #DEE2E6;
+            --color-gray-600: #6C757D;
+            --color-gray-800: #343A40;
+            --color-success: #2D6A4F;
+            --color-warning: #E76F51;
+            --font-heading: 'Segoe UI', system-ui, sans-serif;
+            --font-body: 'Segoe UI', system-ui, sans-serif;
+            --shadow-soft: 0 4px 24px rgba(29, 53, 87, 0.08);
+            --shadow-medium: 0 8px 32px rgba(29, 53, 87, 0.12);
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-dark);
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            position: relative;
+            text-align: center;
+        }
+
+        .slide.active { display: flex; }
+
+        /* Slide Backgrounds */
+        .bg-dark { background: var(--color-dark); color: var(--color-white); }
+        .bg-light { background: var(--color-light); color: var(--color-dark); }
+        .bg-white { background: var(--color-white); color: var(--color-dark); }
+        .bg-primary { background: var(--color-primary); color: var(--color-white); }
+        .bg-secondary { background: var(--color-secondary); color: var(--color-white); }
+        .bg-gradient-dark {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-secondary-dark) 100%);
+            color: var(--color-white);
+        }
+        .bg-gradient-warm {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
+        }
+
+        /* Typography */
+        h1 { font-size: 3.2rem; font-weight: 700; line-height: 1.15; margin-bottom: 24px; font-family: var(--font-heading); }
+        h2 { font-size: 2.4rem; font-weight: 700; line-height: 1.2; margin-bottom: 20px; font-family: var(--font-heading); }
+        h3 { font-size: 1.6rem; font-weight: 600; line-height: 1.3; margin-bottom: 16px; }
+        p, li { font-size: 1.25rem; line-height: 1.6; }
+        .subtitle { font-size: 1.4rem; opacity: 0.85; margin-bottom: 32px; font-weight: 400; }
+        .label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-bottom: 12px; }
+        .big-number { font-size: 5rem; font-weight: 800; line-height: 1; }
+        .highlight { color: var(--color-accent); }
+        .highlight-red { color: var(--color-primary); }
+
+        /* Layout helpers */
+        .content { max-width: 1100px; width: 100%; }
+        .content-left { text-align: left; }
+        .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; text-align: left; }
+        .three-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; text-align: left; }
+
+        /* Cards */
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow-soft);
+            text-align: left;
+        }
+        .card-dark {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius);
+            padding: 28px;
+            text-align: left;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; font-size: 1.05rem; text-align: left; }
+        th { background: var(--color-dark); color: var(--color-white); padding: 12px 16px; font-weight: 600; }
+        td { padding: 12px 16px; border-bottom: 1px solid var(--color-gray-200); }
+        tr:nth-child(even) td { background: var(--color-gray-100); }
+
+        /* Lists */
+        ul, ol { text-align: left; padding-left: 1.5em; }
+        li { margin-bottom: 12px; }
+
+        /* Tags / Badges */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .badge-green { background: #D4EDDA; color: var(--color-success); }
+        .badge-red { background: #F8D7DA; color: var(--color-primary-dark); }
+        .badge-yellow { background: #FFF3CD; color: #856404; }
+        .badge-blue { background: #D1ECF1; color: var(--color-secondary-dark); }
+
+        /* Flow diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 32px 0;
+            flex-wrap: wrap;
+        }
+        .flow-box {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 8px;
+            padding: 16px 24px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .flow-arrow { font-size: 1.5rem; opacity: 0.6; }
+
+        /* Icon blocks */
+        .icon-block { font-size: 2.5rem; margin-bottom: 12px; }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--color-primary);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* Slide counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 24px;
+            right: 32px;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            color: inherit;
+            z-index: 100;
+        }
+
+        /* Section divider */
+        .section-number {
+            font-size: 8rem;
+            font-weight: 800;
+            opacity: 0.1;
+            position: absolute;
+            top: 40px;
+            right: 60px;
+        }
+
+        /* Checklist */
+        .checklist { list-style: none; padding-left: 0; }
+        .checklist li { padding: 8px 0; padding-left: 32px; position: relative; }
+        .checklist li::before { content: "☐"; position: absolute; left: 0; font-size: 1.2rem; }
+
+        /* Schema box */
+        .schema-box {
+            background: var(--color-gray-100);
+            border-left: 4px solid var(--color-primary);
+            border-radius: 0 8px 8px 0;
+            padding: 24px 28px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide.active .content { animation: fadeInUp 0.5s ease-out; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- SLIDE 1: Cover -->
+    <div class="slide active bg-gradient-dark">
+        <div class="content">
+            <p class="label">Formazione Shopify — Giochi3</p>
+            <h1>Lezione 1<br><span class="highlight">Prodotti, Collezioni<br>e Contenuti Editoriali</span></h1>
+            <p class="subtitle">Come funziona il catalogo e come creare contenuti che vendono</p>
+            <p style="margin-top: 48px; opacity: 0.5; font-size: 0.95rem;">Luglio 2026 — Team Marketing & Category Manager</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Agenda -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Agenda</p>
+            <h2>Cosa faremo oggi</h2>
+            <div class="two-cols" style="margin-top: 32px;">
+                <div>
+                    <h3 style="color: var(--color-primary);">Parte 1 — 30 min</h3>
+                    <p style="font-size: 1.1rem; color: var(--color-gray-600); margin-bottom: 16px;">Overview Prodotti e Collezioni</p>
+                    <ul>
+                        <li>Come arrivano i prodotti nel catalogo</li>
+                        <li>Cosa potete fare sulla scheda prodotto</li>
+                        <li>Collezioni automatiche vs manuali</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-secondary);">Parte 2 — 50 min</h3>
+                    <p style="font-size: 1.1rem; color: var(--color-gray-600); margin-bottom: 16px;">Contenuti Editoriali</p>
+                    <ul>
+                        <li>Pagine collezione (descrizioni SEO)</li>
+                        <li>Pages di Shopify (contenuti statici)</li>
+                        <li>Homepage (Theme Editor)</li>
+                        <li>Blog (articoli per SEO e traffico)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Section divider - Part 1 -->
+    <div class="slide bg-gradient-warm">
+        <span class="section-number">01</span>
+        <div class="content">
+            <p class="label">Parte 1</p>
+            <h1>Prodotti e Collezioni</h1>
+            <p class="subtitle">Come funziona il catalogo Giochi3 su Shopify</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Flusso Middleware -->
+    <div class="slide bg-dark">
+        <div class="content">
+            <p class="label">Il flusso dei dati</p>
+            <h2>Come arrivano i prodotti nel catalogo</h2>
+            <div class="flow" style="margin-top: 40px;">
+                <div class="flow-box">Gestionale / ERP</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box" style="border-color: var(--color-accent); background: rgba(244,162,97,0.15);">Middleware</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box" style="border-color: var(--color-primary); background: rgba(230,57,70,0.15);">Shopify</div>
+            </div>
+            <p style="margin-top: 40px; font-size: 1.2rem; opacity: 0.85;">I prodotti vengono creati e aggiornati <strong>automaticamente</strong>.<br>Il team <strong>non crea</strong> prodotti manualmente.</p>
+            <p style="margin-top: 24px; padding: 16px 24px; background: rgba(230,57,70,0.15); border-radius: 8px; display: inline-block;">
+                ⚠️ Unica eccezione: <strong>bundle promozionali</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Cosa sincronizza il middleware -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Middleware vs Team</p>
+            <h2>Cosa gestisce il middleware, cosa gestite voi</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>Dato</th><th>Middleware</th><th>Team</th></tr>
+                <tr><td>Titolo e descrizione</td><td>✅ Sincronizza</td><td>⚠️ Con cautela</td></tr>
+                <tr><td>Prezzi</td><td>✅ Sincronizza</td><td>❌ Non toccare</td></tr>
+                <tr><td>SKU / EAN / Inventario</td><td>✅ Sincronizza</td><td>❌ Non toccare</td></tr>
+                <tr><td>Immagine principale</td><td>✅ Sincronizza</td><td>⚠️ Può sovrascrivere</td></tr>
+                <tr><td><strong>Immagini aggiuntive</strong></td><td>—</td><td><strong>✅ Libero</strong></td></tr>
+                <tr><td><strong>Tag</strong></td><td>Parziale</td><td><strong>✅ Si sommano</strong></td></tr>
+                <tr><td><strong>Metafield custom</strong></td><td>—</td><td><strong>✅ Libero</strong></td></tr>
+                <tr><td><strong>SEO (meta, URL)</strong></td><td>—</td><td><strong>✅ Libero</strong></td></tr>
+                <tr><td><strong>Stato (Attivo/Bozza)</strong></td><td>—</td><td><strong>✅ Libero</strong></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Regola d'oro -->
+    <div class="slide bg-gradient-dark">
+        <div class="content">
+            <p class="label">La regola d'oro</p>
+            <h1 style="font-size: 2.8rem;">Il team <span class="highlight">arricchisce</span>,<br>non sostituisce.</h1>
+            <p class="subtitle" style="max-width: 700px; margin: 24px auto 0;">Il vostro lavoro è aggiungere valore editoriale a un catalogo che arriva già strutturato dal gestionale.</p>
+            <div class="three-cols" style="margin-top: 48px;">
+                <div class="card-dark">
+                    <div class="icon-block">📸</div>
+                    <h3>Immagini</h3>
+                    <p style="font-size: 1rem; opacity: 0.8;">Foto lifestyle, ambientate, dettagli confezione</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">🏷️</div>
+                    <h3>Tag & Metafield</h3>
+                    <p style="font-size: 1rem; opacity: 0.8;">Classificazione, filtri, dati aggiuntivi</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">🔍</div>
+                    <h3>SEO</h3>
+                    <p style="font-size: 1rem; opacity: 0.8;">Meta title, description, alt text immagini</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Cosa potete fare -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-success);">Azioni consentite</p>
+            <h2>Cosa potete fare sulla scheda prodotto</h2>
+            <div class="two-cols" style="margin-top: 28px;">
+                <div>
+                    <h3 style="color: var(--color-success);">✅ Sì</h3>
+                    <ul>
+                        <li>Aggiungere immagini secondarie</li>
+                        <li>Compilare l'alt text delle immagini</li>
+                        <li>Aggiungere tag manuali</li>
+                        <li>Compilare metafield custom</li>
+                        <li>Ottimizzare la sezione SEO</li>
+                        <li>Cambiare stato Attivo/Bozza</li>
+                        <li>Creare bundle promozionali</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-primary);">❌ No</h3>
+                    <ul>
+                        <li>Creare prodotti manualmente</li>
+                        <li>Modificare prezzi</li>
+                        <li>Modificare inventario/quantità</li>
+                        <li>Rinominare varianti</li>
+                        <li>Eliminare prodotti dal middleware</li>
+                        <li>Rimuovere tag del middleware</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Collezioni intro -->
+    <div class="slide bg-secondary">
+        <div class="content">
+            <p class="label">Organizzare il catalogo</p>
+            <h1>Collezioni</h1>
+            <p class="subtitle">Il modo per raggruppare i prodotti e costruire la navigazione del sito</p>
+            <div class="two-cols" style="margin-top: 40px;">
+                <div class="card-dark" style="text-align: center;">
+                    <div class="icon-block">⚙️</div>
+                    <h3>Automatica</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">I prodotti entrano/escono da soli<br>in base a regole (tag, tipo, prezzo)</p>
+                    <p style="margin-top: 16px; font-size: 0.9rem;"><strong>Quando:</strong> Categorie, marche, età</p>
+                </div>
+                <div class="card-dark" style="text-align: center;">
+                    <div class="icon-block">✋</div>
+                    <h3>Manuale</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">Aggiungi e rimuovi prodotti<br>uno a uno, nell'ordine che vuoi</p>
+                    <p style="margin-top: 16px; font-size: 0.9rem;"><strong>Quando:</strong> Selezioni editoriali, promo stagionali</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: Collezione automatica esempio -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-secondary);">Esempio pratico</p>
+            <h2>Collezione Automatica: "Giochi 3-5 anni"</h2>
+            <div class="schema-box" style="margin-top: 24px;">
+                Prodotti → Collezioni → Crea collezione<br><br>
+                Tipo: <strong>Automatica</strong><br>
+                Condizione: Tag del prodotto → contiene → <span style="color: var(--color-primary); font-weight: 700;">eta-3-5</span><br><br>
+                ✨ Risultato: ogni prodotto con tag "eta-3-5" appare automaticamente!
+            </div>
+            <div style="margin-top: 28px; padding: 20px; background: #D1ECF1; border-radius: 8px;">
+                <p style="font-size: 1.1rem;"><strong>💡 Pro tip:</strong> Quando il middleware sincronizza un nuovo prodotto con il tag corretto, apparirà in automatico nella collezione. Zero lavoro manuale.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: Best practice collezioni -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-secondary);">Best Practice</p>
+            <h2>Come usare le collezioni per Giochi3</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div>
+                    <h3>⚙️ Automatiche per:</h3>
+                    <ul>
+                        <li>Categorie (Costruzioni, Peluche, Giochi da Tavolo...)</li>
+                        <li>Marche (YES TOYS, Hasbro, Mattel...)</li>
+                        <li>Fasce d'età (0-2, 3-5, 6-8, 9+)</li>
+                        <li>Bundle (tag "bundle")</li>
+                        <li>Novità (tag "novita-2026")</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>✋ Manuali per:</h3>
+                    <ul>
+                        <li>"I nostri preferiti" — selezione curata</li>
+                        <li>"Bundle Natale" — pacchetti specifici</li>
+                        <li>"Offerte della settimana" — rotazione</li>
+                        <li>Selezioni per campagne ADV</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 32px; padding: 16px 24px; background: #FFF3CD; border-radius: 8px;">
+                <p style="font-size: 1.05rem;"><strong>⚠️ Ricorda:</strong> Ogni prodotto può appartenere a più collezioni. Le collezioni alimentano il menu di navigazione.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 11: Section divider - Part 2 -->
+    <div class="slide bg-gradient-dark">
+        <span class="section-number" style="opacity: 0.06;">02</span>
+        <div class="content">
+            <p class="label">Parte 2</p>
+            <h1>Contenuti Editoriali</h1>
+            <p class="subtitle">Pagine collezione, Pages, Homepage e Blog</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: Mappa contenuti -->
+    <div class="slide bg-white">
+        <div class="content">
+            <p class="label" style="color: var(--color-secondary);">Panoramica</p>
+            <h2>I 4 tipi di contenuto editoriale in Shopify</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
+                <div class="card" style="border-left: 4px solid var(--color-primary);">
+                    <div class="icon-block" style="font-size: 1.8rem;">📂</div>
+                    <h3>Pagine Collezione</h3>
+                    <p style="font-size: 1rem; color: var(--color-gray-600);">Descrizioni delle categorie prodotto. Fondamentali per SEO.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--color-secondary);">
+                    <div class="icon-block" style="font-size: 1.8rem;">📄</div>
+                    <h3>Pages (Pagine statiche)</h3>
+                    <p style="font-size: 1rem; color: var(--color-gray-600);">Chi siamo, FAQ, Spedizioni, Policy. Contenuti di servizio.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--color-accent);">
+                    <div class="icon-block" style="font-size: 1.8rem;">🏠</div>
+                    <h3>Homepage</h3>
+                    <p style="font-size: 1rem; color: var(--color-gray-600);">La vetrina principale. Si gestisce dal Theme Editor.</p>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--color-success);">
+                    <div class="icon-block" style="font-size: 1.8rem;">📝</div>
+                    <h3>Blog</h3>
+                    <p style="font-size: 1rem; color: var(--color-gray-600);">Articoli per SEO, traffico organico e engagement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 13: Perché i contenuti contano -->
+    <div class="slide bg-dark">
+        <div class="content">
+            <p class="label">Perché investire nei contenuti</p>
+            <h2>I contenuti editoriali sono il vostro <span class="highlight">vantaggio competitivo</span></h2>
+            <div class="three-cols" style="margin-top: 40px;">
+                <div class="card-dark" style="text-align: center;">
+                    <div class="big-number highlight">SEO</div>
+                    <p style="margin-top: 12px; font-size: 1rem;">Testi unici posizionano il sito su Google</p>
+                </div>
+                <div class="card-dark" style="text-align: center;">
+                    <div class="big-number highlight">CR%</div>
+                    <p style="margin-top: 12px; font-size: 1rem;">Descrizioni convincenti guidano all'acquisto</p>
+                </div>
+                <div class="card-dark" style="text-align: center;">
+                    <div class="big-number highlight">Trust</div>
+                    <p style="margin-top: 12px; font-size: 1rem;">Pagine istituzionali rassicurano il cliente</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 14: Pagine Collezione -->
+    <div class="slide bg-primary">
+        <div class="content">
+            <p class="label">Contenuto #1</p>
+            <h1>Pagine Collezione</h1>
+            <p class="subtitle">Il contenuto più sottovalutato dell'e-commerce</p>
+            <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.9;">La descrizione che scrivete nella collezione appare sulla pagina pubblica <code style="background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px;">/collections/nome</code> ed è ciò che Google indicizza per posizionarvi.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 15: Struttura pagina collezione -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Come scriverla</p>
+            <h2>Struttura consigliata per la descrizione collezione</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div class="schema-box">
+                    <strong>[H2]</strong> Titolo editoriale con keyword<br><br>
+                    <strong>[Paragrafo]</strong> 2-3 frasi introduttive<br><br>
+                    <strong>[H3]</strong> Per chi sono questi prodotti<br>
+                    Target, età, occasione<br><br>
+                    <strong>[H3]</strong> Come scegliere<br>
+                    Criteri di scelta<br><br>
+                    <strong>[CTA]</strong> Invito a esplorare/filtrare
+                </div>
+                <div>
+                    <h3>Checklist SEO</h3>
+                    <ul class="checklist">
+                        <li>Meta title con keyword (50-60 car.)</li>
+                        <li>Meta description con CTA (155 car.)</li>
+                        <li>URL pulito con keyword</li>
+                        <li>Descrizione 150-300+ parole</li>
+                        <li>Heading strutturati (H2, H3)</li>
+                        <li>Keyword naturali, no stuffing</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 12px; background: #D4EDDA; border-radius: 8px;">
+                        <p style="font-size: 0.95rem;"><strong>Priorità:</strong> Iniziate dalle collezioni principali (categorie, marche top, fasce età)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 16: Esempio collezione -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Esempio</p>
+            <h2>Collezione "Giochi da Tavolo" — prima e dopo</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div class="card" style="border: 2px solid var(--color-primary);">
+                    <h3 style="color: var(--color-primary);">❌ Prima (vuota)</h3>
+                    <p style="font-style: italic; color: var(--color-gray-600); margin-top: 12px;">(nessuna descrizione)</p>
+                    <p style="font-size: 0.9rem; margin-top: 12px; color: var(--color-gray-600);">Google non ha contenuto da indicizzare. Nessun posizionamento organico.</p>
+                </div>
+                <div class="card" style="border: 2px solid var(--color-success);">
+                    <h3 style="color: var(--color-success);">✅ Dopo (ottimizzata)</h3>
+                    <p style="font-size: 0.95rem; margin-top: 12px;"><strong>I migliori giochi da tavolo per tutta la famiglia</strong></p>
+                    <p style="font-size: 0.9rem; margin-top: 8px;">Cerchi un gioco da tavolo per le serate in famiglia? Nella nostra selezione trovi strategia, cooperativi, party game e classici intramontabili...</p>
+                    <p style="font-size: 0.85rem; margin-top: 8px; color: var(--color-gray-600);">+ sezioni "Per chi", "Come scegliere", CTA</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 17: Pages -->
+    <div class="slide bg-secondary">
+        <div class="content">
+            <p class="label">Contenuto #2</p>
+            <h1>Pages — Pagine Statiche</h1>
+            <p class="subtitle">Contenuti istituzionali e di servizio</p>
+            <p style="font-size: 1.15rem; max-width: 700px; margin: 0 auto; opacity: 0.9;">Percorso: <strong>Negozio online → Pagine → Aggiungi pagina</strong></p>
+        </div>
+    </div>
+
+    <!-- SLIDE 18: Pages - cosa creare -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-secondary);">Pages essenziali</p>
+            <h2>Pagine da avere per Giochi3</h2>
+            <table style="margin-top: 20px;">
+                <tr><th>Pagina</th><th>URL</th><th>Priorità</th></tr>
+                <tr><td>Chi siamo</td><td><code>/pages/chi-siamo</code></td><td><span class="badge badge-red">Alta</span></td></tr>
+                <tr><td>Contatti</td><td><code>/pages/contatti</code></td><td><span class="badge badge-red">Alta</span></td></tr>
+                <tr><td>FAQ</td><td><code>/pages/domande-frequenti</code></td><td><span class="badge badge-red">Alta</span></td></tr>
+                <tr><td>Spedizioni</td><td><code>/pages/spedizioni</code></td><td><span class="badge badge-red">Alta</span></td></tr>
+                <tr><td>Resi e Rimborsi</td><td><code>/pages/resi</code></td><td><span class="badge badge-red">Alta</span></td></tr>
+                <tr><td>Lista Nascita</td><td><code>/pages/lista-nascita</code></td><td><span class="badge badge-yellow">Media</span></td></tr>
+                <tr><td>Punti Vendita</td><td><code>/pages/store-locator</code></td><td><span class="badge badge-yellow">Media</span></td></tr>
+                <tr><td>Fidelity</td><td><code>/pages/fidelity</code></td><td><span class="badge badge-yellow">Media</span></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- SLIDE 19: Pages - come crearle -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-secondary);">Come si crea una Page</p>
+            <h2>Procedura e best practice</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div>
+                    <h3>📋 Campi da compilare</h3>
+                    <ol>
+                        <li><strong>Titolo</strong> — diventa anche H1</li>
+                        <li><strong>Contenuto</strong> — editor rich text (H2, elenchi, immagini, tabelle)</li>
+                        <li><strong>Template</strong> — layout pagina</li>
+                        <li><strong>Visibilità</strong> — pubblicata o nascosta</li>
+                        <li><strong>SEO</strong> — meta title, description, URL handle</li>
+                    </ol>
+                </div>
+                <div>
+                    <h3>💡 Best practice</h3>
+                    <ul>
+                        <li>Struttura con heading, non muri di testo</li>
+                        <li>Immagini per spezzare il contenuto</li>
+                        <li>Mobile first (70%+ del traffico)</li>
+                        <li>CTA chiara in ogni pagina</li>
+                        <li>Aggiorna periodicamente</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 12px; background: #F8D7DA; border-radius: 8px;">
+                        <p style="font-size: 0.9rem;"><strong>⚠️</strong> Non cambiare mai l'URL dopo la pubblicazione. Se necessario, crea un redirect.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 20: Homepage -->
+    <div class="slide bg-gradient-warm">
+        <div class="content">
+            <p class="label">Contenuto #3</p>
+            <h1>Homepage</h1>
+            <p class="subtitle">La vetrina digitale di Giochi3</p>
+            <p style="font-size: 1.15rem; max-width: 700px; margin: 0 auto; opacity: 0.9;">Si gestisce dal <strong>Theme Editor</strong> — non è una "Page"<br>
+            Percorso: <strong>Negozio online → Personalizza → Home page</strong></p>
+        </div>
+    </div>
+
+    <!-- SLIDE 21: Homepage struttura -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-accent);">Struttura a sezioni</p>
+            <h2>Come è fatta la homepage</h2>
+            <div class="two-cols" style="margin-top: 20px;">
+                <div style="background: var(--color-gray-100); border-radius: var(--radius); padding: 20px; font-size: 0.95rem;">
+                    <div style="background: var(--color-primary); color: white; padding: 14px; border-radius: 6px; margin-bottom: 8px; text-align: center;">🖼️ Hero Banner / Slideshow</div>
+                    <div style="background: var(--color-secondary); color: white; padding: 14px; border-radius: 6px; margin-bottom: 8px; text-align: center;">📂 Collezioni in evidenza</div>
+                    <div style="background: var(--color-accent); color: white; padding: 14px; border-radius: 6px; margin-bottom: 8px; text-align: center;">🛍️ Prodotti in evidenza</div>
+                    <div style="background: var(--color-success); color: white; padding: 14px; border-radius: 6px; margin-bottom: 8px; text-align: center;">📣 Banner promozionale</div>
+                    <div style="background: var(--color-gray-600); color: white; padding: 14px; border-radius: 6px; margin-bottom: 8px; text-align: center;">✨ USP (spedizione, resi, qualità)</div>
+                    <div style="background: var(--color-dark); color: white; padding: 14px; border-radius: 6px; text-align: center;">📝 Blog / Newsletter</div>
+                </div>
+                <div>
+                    <h3>Cosa potete modificare</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li>Immagine e testo del banner hero</li>
+                        <li>Collezioni e prodotti in evidenza</li>
+                        <li>Banner promozionali (promo attive)</li>
+                        <li>Ordine delle sezioni (drag & drop)</li>
+                        <li>Aggiungere/rimuovere sezioni</li>
+                    </ul>
+                    <h3 style="margin-top: 24px;">Frequenza aggiornamento</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li><strong>Settimanale:</strong> banner hero</li>
+                        <li><strong>Bisettimanale:</strong> prodotti in evidenza</li>
+                        <li><strong>Mensile:</strong> collezioni in evidenza</li>
+                        <li><strong>Stagionale:</strong> layout completo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 22: Homepage tips -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-accent);">Homepage tips</p>
+            <h2>Best practice per la homepage</h2>
+            <div class="three-cols" style="margin-top: 28px;">
+                <div class="card">
+                    <h3 style="color: var(--color-primary);">🎯 Above the fold</h3>
+                    <p style="font-size: 0.95rem;">Le prime 2 sezioni sono le più importanti. È ciò che il cliente vede senza scrollare.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--color-secondary);">📱 Mobile first</h3>
+                    <p style="font-size: 0.95rem;">Verificate SEMPRE su mobile (icona telefono nel Theme Editor). 70%+ del traffico è mobile.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--color-accent);">🖼️ Immagini banner</h3>
+                    <p style="font-size: 0.95rem;">Min 1920×800 px, compresse, testo breve (max 8 parole), CTA chiara e un solo link.</p>
+                </div>
+            </div>
+            <div style="margin-top: 28px; padding: 16px 24px; background: #FFF3CD; border-radius: 8px;">
+                <p style="font-size: 1.05rem;"><strong>⚠️ Attenzione:</strong> Le modifiche nel Theme Editor sono <strong>live</strong> sul tema pubblicato. Usate "Duplica tema" per testare prima di pubblicare.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 23: Blog intro -->
+    <div class="slide bg-gradient-dark">
+        <div class="content">
+            <p class="label">Contenuto #4</p>
+            <h1>Blog</h1>
+            <p class="subtitle">Articoli per SEO, traffico organico e supporto alle vendite</p>
+            <p style="font-size: 1.15rem; max-width: 700px; margin: 0 auto; opacity: 0.85;">Percorso: <strong>Negozio online → Articoli del blog → Aggiungi articolo</strong></p>
+        </div>
+    </div>
+
+    <!-- SLIDE 24: A cosa serve il blog -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-success);">A cosa serve il blog</p>
+            <h2>Il blog non è un diario — è uno strumento di vendita</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>Obiettivo</th><th>Tipo di contenuto</th><th>Esempio</th></tr>
+                <tr><td>Traffico SEO</td><td>Guide informative</td><td>"Migliori giochi bambini 5 anni"</td></tr>
+                <tr><td>Supporto vendite</td><td>Guide all'acquisto</td><td>"Come scegliere il primo gioco da tavolo"</td></tr>
+                <tr><td>Stagionalità</td><td>Liste regalo</td><td>"Idee regalo Natale bambini 6-8 anni"</td></tr>
+                <tr><td>Brand awareness</td><td>News e eventi</td><td>"Giochi3 apre a Ragusa!"</td></tr>
+                <tr><td>Campagne ADV</td><td>Landing informativa</td><td>Pagina di atterraggio per Google Ads</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- SLIDE 25: Struttura articolo -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-success);">Come scriverlo</p>
+            <h2>Struttura di un articolo blog efficace</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div class="schema-box">
+                    <strong>[H1]</strong> Titolo con keyword<br>
+                    <span style="opacity: 0.6;">↑ dal campo "Titolo"</span><br><br>
+                    <strong>[Intro]</strong> 2-3 frasi che catturano<br><br>
+                    <strong>[H2]</strong> Prima sezione<br>
+                    Paragrafo + immagine<br><br>
+                    <strong>[H2]</strong> Prodotti consigliati<br>
+                    Elenco con link ai prodotti ←<br><br>
+                    <strong>[H2]</strong> Conclusione<br><br>
+                    <strong>[CTA]</strong> "Scopri la collezione →"
+                </div>
+                <div>
+                    <h3>Campi da compilare</h3>
+                    <ol style="font-size: 1rem;">
+                        <li><strong>Titolo</strong> — H1 ottimizzato SEO</li>
+                        <li><strong>Contenuto</strong> — corpo con H2, immagini, link</li>
+                        <li><strong>Immagine in evidenza</strong> — 1200×628 px</li>
+                        <li><strong>Tag articolo</strong> — guida, novità, evento</li>
+                        <li><strong>SEO</strong> — meta title + description</li>
+                        <li><strong>Pubblicazione</strong> — data programmabile</li>
+                    </ol>
+                    <div style="margin-top: 20px; padding: 12px; background: #D4EDDA; border-radius: 8px;">
+                        <p style="font-size: 0.9rem;"><strong>💡</strong> Min 800 parole per articoli SEO. Includi sempre link ai prodotti e alle collezioni!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 26: Calendario editoriale -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-success);">Pianificazione</p>
+            <h2>Calendario editoriale consigliato</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>Frequenza</th><th>Tipo</th><th>Esempio</th></tr>
+                <tr><td><strong>1/settimana</strong></td><td>Guida prodotto</td><td>"I migliori giochi da tavolo per famiglie"</td></tr>
+                <tr><td><strong>2/mese</strong></td><td>Lista consigliata</td><td>"Top 10 regali Natale bambina 6-8 anni"</td></tr>
+                <tr><td><strong>Mensile</strong></td><td>News / evento</td><td>"Nuovo punto vendita a Ragusa!"</td></tr>
+                <tr><td><strong>Stagionale</strong></td><td>Guida tematica</td><td>"Lista nascita: cosa non può mancare"</td></tr>
+            </table>
+            <div style="margin-top: 28px; padding: 16px 24px; background: #D1ECF1; border-radius: 8px;">
+                <p style="font-size: 1.05rem;"><strong>💡 Collegare blog e vendite:</strong> Ogni articolo deve contenere link a prodotti e/o collezioni. Il blog genera traffico, i link convertono.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 27: SEO per il blog -->
+    <div class="slide bg-dark">
+        <div class="content content-left">
+            <p class="label">SEO per gli articoli</p>
+            <h2>Come posizionare gli articoli su Google</h2>
+            <div class="two-cols" style="margin-top: 28px;">
+                <div>
+                    <h3 style="color: var(--color-accent);">Keyword strategy</h3>
+                    <p style="margin-bottom: 12px; opacity: 0.8;">Target: keyword long-tail informative</p>
+                    <ul style="opacity: 0.9;">
+                        <li>"migliori giochi per bambini 5 anni 2026"</li>
+                        <li>"cosa regalare a bambina 7 anni"</li>
+                        <li>"lista nascita cosa comprare"</li>
+                        <li>"giochi costruzioni bambini 6 anni"</li>
+                    </ul>
+                    <p style="margin-top: 16px; font-size: 0.95rem; opacity: 0.7;">Tool: Google Suggest, Google Trends, Answer The Public</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-accent);">Checklist articolo</h3>
+                    <ul style="opacity: 0.9;">
+                        <li>Keyword nel titolo (all'inizio)</li>
+                        <li>URL breve con keyword</li>
+                        <li>Meta description con CTA (155 car.)</li>
+                        <li>H2 e H3 strutturati</li>
+                        <li>Immagini con alt text</li>
+                        <li>Link interni a prodotti/collezioni</li>
+                        <li>Min 800 parole</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 28: Errori da evitare -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Errori comuni</p>
+            <h2>Cosa <span style="color: var(--color-primary);">non</span> fare con i contenuti</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div class="card" style="border-top: 3px solid var(--color-primary);">
+                    <h3>❌ Da evitare</h3>
+                    <ul style="font-size: 1rem;">
+                        <li>Descrizioni collezione vuote</li>
+                        <li>Articoli blog &lt;300 parole</li>
+                        <li>Nessun link interno ai prodotti</li>
+                        <li>Immagine in evidenza mancante</li>
+                        <li>URL cambiati dopo pubblicazione</li>
+                        <li>Muri di testo senza heading</li>
+                        <li>Contenuto copiato da altre fonti</li>
+                        <li>Alt text mancante sulle immagini</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-top: 3px solid var(--color-success);">
+                    <h3>✅ Da fare sempre</h3>
+                    <ul style="font-size: 1rem;">
+                        <li>Compilare la SEO di ogni entità</li>
+                        <li>Strutturare con H2 e H3</li>
+                        <li>Inserire CTA e link a prodotti</li>
+                        <li>Comprimere le immagini prima del caricamento</li>
+                        <li>Testare su mobile</li>
+                        <li>Usare naming file descrittivo</li>
+                        <li>Creare redirect se cambi URL</li>
+                        <li>Pianificare un calendario editoriale</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 29: Recap -->
+    <div class="slide bg-gradient-dark">
+        <div class="content">
+            <p class="label">Recap</p>
+            <h2>Cosa avete imparato oggi</h2>
+            <div class="three-cols" style="margin-top: 36px; text-align: center;">
+                <div class="card-dark">
+                    <div class="icon-block">📦</div>
+                    <p style="font-size: 1.05rem;">Il catalogo arriva dal middleware.<br>Voi <strong>arricchite</strong>.</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">📂</div>
+                    <p style="font-size: 1.05rem;">Le collezioni organizzano.<br>Le <strong>descrizioni</strong> vendono.</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">✍️</div>
+                    <p style="font-size: 1.05rem;">4 contenuti: collezioni,<br>pages, homepage, blog.</p>
+                </div>
+            </div>
+            <p style="margin-top: 40px; font-size: 1.3rem; color: var(--color-accent);">Ogni contenuto che scrivete è un investimento in SEO e vendite.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 30: Azioni post-lezione -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">To-do</p>
+            <h2>Azioni immediate post-lezione</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>#</th><th>Azione</th><th>Chi</th><th>Entro</th></tr>
+                <tr><td>1</td><td>Descrizione delle 5 collezioni principali</td><td>Category + Marketing</td><td>1 settimana</td></tr>
+                <tr><td>2</td><td>Creare/aggiornare Pages essenziali (FAQ, Spedizioni, Resi)</td><td>Marketing</td><td>1 settimana</td></tr>
+                <tr><td>3</td><td>Aggiornare homepage (banner + collezioni)</td><td>Marketing</td><td>3 giorni</td></tr>
+                <tr><td>4</td><td>Pubblicare il primo articolo blog</td><td>Marketing</td><td>2 settimane</td></tr>
+                <tr><td>5</td><td>Alt text sui top 20 prodotti</td><td>Category Manager</td><td>2 settimane</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- SLIDE 31: Prossima lezione -->
+    <div class="slide bg-gradient-warm">
+        <div class="content">
+            <p class="label">Prossimo appuntamento</p>
+            <h1>Lezione 2</h1>
+            <p class="subtitle" style="font-size: 1.5rem;">Marketing e Promozioni</p>
+            <div style="margin-top: 32px; font-size: 1.15rem; opacity: 0.9;">
+                <p>Codici sconto • Sconti automatici • Shopify Email • Automazioni Flow</p>
+            </div>
+            <p style="margin-top: 48px; opacity: 0.6; font-size: 1rem;">Domande? 🙋</p>
+        </div>
+    </div>
+
+    <!-- Slide counter -->
+    <div class="slide-counter" id="slideCounter"></div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let current = 0;
+
+        function showSlide(n) {
+            slides[current].classList.remove('active');
+            current = (n + slides.length) % slides.length;
+            slides[current].classList.add('active');
+            updateProgress();
+            updateCounter();
+        }
+
+        function updateProgress() {
+            const pct = ((current + 1) / slides.length) * 100;
+            document.getElementById('progressBar').style.width = pct + '%';
+        }
+
+        function updateCounter() {
+            document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + slides.length;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                showSlide(current + 1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                showSlide(current - 1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(slides.length - 1);
+            }
+        });
+
+        // Click navigation
+        document.addEventListener('click', (e) => {
+            const x = e.clientX;
+            const w = window.innerWidth;
+            if (x > w * 0.65) showSlide(current + 1);
+            else if (x < w * 0.35) showSlide(current - 1);
+        });
+
+        // Touch navigation
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) showSlide(current + 1);
+                else showSlide(current - 1);
+            }
+        });
+
+        // Init
+        updateProgress();
+        updateCounter();
+    </script>
+</body>
+</html>
