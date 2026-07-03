@@ -201,44 +201,60 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .slide.active .content { animation: fadeInUp 0.5s ease-out; }
+
+        /* TOC list */
+        .toc-list { list-style: none; padding-left: 0; }
+        .toc-list li { padding: 8px 0; border-bottom: 1px solid var(--color-gray-200); }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a { color: var(--color-dark); text-decoration: none; font-size: 1.1rem; transition: color 0.2s; }
+        .toc-list a:hover { color: var(--color-primary); }
     </style>
 </head>
 <body>
     <div class="progress-bar" id="progressBar"></div>
 
     <!-- SLIDE 1: Cover -->
-    <div class="slide active bg-gradient-dark">
+    <div class="slide active bg-gradient-dark" id="slide-cover">
         <div class="content">
             <p class="label">Formazione Shopify — Giochi3</p>
             <h1>Lezione 1<br><span class="highlight">Prodotti, Collezioni<br>e Contenuti Editoriali</span></h1>
             <p class="subtitle">Come funziona il catalogo e come creare contenuti che vendono</p>
             <p style="margin-top: 48px; opacity: 0.5; font-size: 0.95rem;">Luglio 2026 — Team Marketing & Category Manager</p>
+            <p style="margin-top: 16px; opacity: 0.4; font-size: 0.85rem;">Premi → per iniziare</p>
         </div>
     </div>
 
-    <!-- SLIDE 2: Agenda -->
-    <div class="slide bg-white">
+    <!-- SLIDE 2: Indice -->
+    <div class="slide bg-white" id="slide-indice">
         <div class="content content-left">
-            <p class="label" style="color: var(--color-primary);">Agenda</p>
-            <h2>Cosa faremo oggi</h2>
-            <div class="two-cols" style="margin-top: 32px;">
+            <p class="label" style="color: var(--color-primary);">Indice</p>
+            <h2>Contenuti della lezione</h2>
+            <div class="two-cols" style="margin-top: 28px;">
                 <div>
-                    <h3 style="color: var(--color-primary);">Parte 1 — 30 min</h3>
-                    <p style="font-size: 1.1rem; color: var(--color-gray-600); margin-bottom: 16px;">Overview Prodotti e Collezioni</p>
-                    <ul>
-                        <li>Come arrivano i prodotti nel catalogo</li>
-                        <li>Cosa potete fare sulla scheda prodotto</li>
-                        <li>Collezioni automatiche vs manuali</li>
+                    <h3 style="color: var(--color-primary); margin-bottom: 20px;">Parte 1 — Prodotti e Collezioni</h3>
+                    <ul class="toc-list">
+                        <li><a href="#" onclick="goToSlide(3); return false;">Come arrivano i prodotti</a></li>
+                        <li><a href="#" onclick="goToSlide(4); return false;">Middleware vs Team</a></li>
+                        <li><a href="#" onclick="goToSlide(5); return false;">La regola d'oro</a></li>
+                        <li><a href="#" onclick="goToSlide(6); return false;">Azioni sulla scheda prodotto</a></li>
+                        <li><a href="#" onclick="goToSlide(7); return false;">Collezioni: automatiche vs manuali</a></li>
+                        <li><a href="#" onclick="goToSlide(9); return false;">Best practice collezioni</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 style="color: var(--color-secondary);">Parte 2 — 50 min</h3>
-                    <p style="font-size: 1.1rem; color: var(--color-gray-600); margin-bottom: 16px;">Contenuti Editoriali</p>
-                    <ul>
-                        <li>Pagine collezione (descrizioni SEO)</li>
-                        <li>Pages di Shopify (contenuti statici)</li>
-                        <li>Homepage (Theme Editor)</li>
-                        <li>Blog (articoli per SEO e traffico)</li>
+                    <h3 style="color: var(--color-secondary); margin-bottom: 20px;">Parte 2 — Contenuti Editoriali</h3>
+                    <ul class="toc-list">
+                        <li><a href="#" onclick="goToSlide(11); return false;">Mappa dei 4 contenuti</a></li>
+                        <li><a href="#" onclick="goToSlide(13); return false;">Pagine Collezione</a></li>
+                        <li><a href="#" onclick="goToSlide(16); return false;">Pages (pagine statiche)</a></li>
+                        <li><a href="#" onclick="goToSlide(19); return false;">Homepage e Theme Editor</a></li>
+                        <li><a href="#" onclick="goToSlide(22); return false;">Blog e SEO</a></li>
+                        <li><a href="#" onclick="goToSlide(27); return false;">Errori da evitare</a></li>
+                    </ul>
+                    <h3 style="color: var(--color-gray-600); margin-top: 24px; margin-bottom: 12px;">Chiusura</h3>
+                    <ul class="toc-list">
+                        <li><a href="#" onclick="goToSlide(28); return false;">Recap</a></li>
+                        <li><a href="#" onclick="goToSlide(29); return false;">Azioni post-lezione</a></li>
                     </ul>
                 </div>
             </div>
@@ -871,16 +887,17 @@
         </div>
     </div>
 
-    <!-- SLIDE 31: Prossima lezione -->
-    <div class="slide bg-gradient-warm">
+    <!-- SLIDE 31: Fine -->
+    <div class="slide bg-gradient-dark" id="slide-fine">
         <div class="content">
-            <p class="label">Prossimo appuntamento</p>
-            <h1>Lezione 2</h1>
-            <p class="subtitle" style="font-size: 1.5rem;">Marketing e Promozioni</p>
-            <div style="margin-top: 32px; font-size: 1.15rem; opacity: 0.9;">
-                <p>Codici sconto • Sconti automatici • Shopify Email • Automazioni Flow</p>
+            <p class="label">Fine della Lezione 1</p>
+            <h1>Grazie!</h1>
+            <p class="subtitle" style="font-size: 1.3rem; margin-top: 8px;">Prodotti, Collezioni e Contenuti Editoriali</p>
+            <div style="margin-top: 40px; padding: 24px 32px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; display: inline-block;">
+                <p style="font-size: 1.1rem; opacity: 0.9;">Prossimo appuntamento: <strong>Lezione 2 — Marketing e Promozioni</strong></p>
+                <p style="font-size: 0.95rem; opacity: 0.7; margin-top: 8px;">Codici sconto • Sconti automatici • Shopify Email • Automazioni Flow</p>
             </div>
-            <p style="margin-top: 48px; opacity: 0.6; font-size: 1rem;">Domande? 🙋</p>
+            <p style="margin-top: 40px; opacity: 0.5; font-size: 0.9rem;">Premi ← per tornare indietro · <a href="#" onclick="goToSlide(1); return false;" style="color: var(--color-accent); text-decoration: underline;">Torna all'indice</a></p>
         </div>
     </div>
 
@@ -892,11 +909,18 @@
         let current = 0;
 
         function showSlide(n) {
+            // Block looping: don't go past first or last
+            if (n < 0) n = 0;
+            if (n >= slides.length) n = slides.length - 1;
             slides[current].classList.remove('active');
-            current = (n + slides.length) % slides.length;
+            current = n;
             slides[current].classList.add('active');
             updateProgress();
             updateCounter();
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
         }
 
         function updateProgress() {
@@ -925,8 +949,9 @@
             }
         });
 
-        // Click navigation
+        // Click navigation (avoid triggering on TOC links)
         document.addEventListener('click', (e) => {
+            if (e.target.closest('a')) return;
             const x = e.clientX;
             const w = window.innerWidth;
             if (x > w * 0.65) showSlide(current + 1);
