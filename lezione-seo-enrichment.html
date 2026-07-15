@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione SEO — Scheda Prodotto, SEO e Enrichment Metafield | Giochi3</title>
+    <style>
+        :root {
+            --color-primary: #E63946;
+            --color-primary-dark: #C1121F;
+            --color-secondary: #457B9D;
+            --color-secondary-dark: #1D3557;
+            --color-accent: #F4A261;
+            --color-light: #F1FAEE;
+            --color-dark: #1D3557;
+            --color-white: #FFFFFF;
+            --color-gray-100: #F8F9FA;
+            --color-gray-200: #E9ECEF;
+            --color-gray-300: #DEE2E6;
+            --color-gray-600: #6C757D;
+            --color-gray-800: #343A40;
+            --color-success: #2D6A4F;
+            --color-warning: #E76F51;
+            --font-heading: 'Segoe UI', system-ui, sans-serif;
+            --font-body: 'Segoe UI', system-ui, sans-serif;
+            --shadow-soft: 0 4px 24px rgba(29, 53, 87, 0.08);
+            --shadow-medium: 0 8px 32px rgba(29, 53, 87, 0.12);
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-dark);
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            position: relative;
+            text-align: center;
+        }
+
+        .slide.active { display: flex; }
+
+        .bg-dark { background: var(--color-dark); color: var(--color-white); }
+        .bg-light { background: var(--color-light); color: var(--color-dark); }
+        .bg-white { background: var(--color-white); color: var(--color-dark); }
+        .bg-primary { background: var(--color-primary); color: var(--color-white); }
+        .bg-secondary { background: var(--color-secondary); color: var(--color-white); }
+        .bg-gradient-dark {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-secondary-dark) 100%);
+            color: var(--color-white);
+        }
+        .bg-gradient-warm {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
+        }
+
+        h1 { font-size: 3.2rem; font-weight: 700; line-height: 1.15; margin-bottom: 24px; font-family: var(--font-heading); }
+        h2 { font-size: 2.4rem; font-weight: 700; line-height: 1.2; margin-bottom: 20px; font-family: var(--font-heading); }
+        h3 { font-size: 1.6rem; font-weight: 600; line-height: 1.3; margin-bottom: 16px; }
+        p, li { font-size: 1.25rem; line-height: 1.6; }
+        .subtitle { font-size: 1.4rem; opacity: 0.85; margin-bottom: 32px; font-weight: 400; }
+        .label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-bottom: 12px; }
+        .big-number { font-size: 5rem; font-weight: 800; line-height: 1; }
+        .highlight { color: var(--color-accent); }
+        .highlight-red { color: var(--color-primary); }
+
+        .content { max-width: 1100px; width: 100%; }
+        .content-left { text-align: left; }
+        .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; text-align: left; }
+        .three-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; text-align: left; }
+
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow-soft);
+            text-align: left;
+        }
+        .card-dark {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius);
+            padding: 28px;
+            text-align: left;
+            backdrop-filter: blur(4px);
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 1.05rem; text-align: left; }
+        th { background: var(--color-dark); color: var(--color-white); padding: 12px 16px; font-weight: 600; }
+        td { padding: 12px 16px; border-bottom: 1px solid var(--color-gray-200); }
+        tr:nth-child(even) td { background: var(--color-gray-100); }
+
+        .bg-dark table, .bg-gradient-dark table { color: var(--color-white); }
+        .bg-dark th, .bg-gradient-dark th { background: rgba(255,255,255,0.15); color: var(--color-white); }
+        .bg-dark td, .bg-gradient-dark td { border-bottom: 1px solid rgba(255,255,255,0.12); }
+        .bg-dark tr:nth-child(even) td, .bg-gradient-dark tr:nth-child(even) td { background: rgba(255,255,255,0.06); }
+
+        ul, ol { text-align: left; padding-left: 1.5em; }
+        li { margin-bottom: 12px; }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .badge-green { background: #D4EDDA; color: var(--color-success); }
+        .badge-red { background: #F8D7DA; color: var(--color-primary-dark); }
+        .badge-yellow { background: #FFF3CD; color: #856404; }
+        .badge-blue { background: #D1ECF1; color: var(--color-secondary-dark); }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 32px 0;
+            flex-wrap: wrap;
+        }
+        .flow-box {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 8px;
+            padding: 16px 24px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .flow-arrow { font-size: 1.5rem; opacity: 0.6; }
+
+        .icon-block { font-size: 2.5rem; margin-bottom: 12px; }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--color-primary);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 24px;
+            right: 32px;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            color: inherit;
+            z-index: 100;
+        }
+
+        .section-number {
+            font-size: 8rem;
+            font-weight: 800;
+            opacity: 0.1;
+            position: absolute;
+            top: 40px;
+            right: 60px;
+        }
+
+        .checklist { list-style: none; padding-left: 0; }
+        .checklist li { padding: 8px 0; padding-left: 32px; position: relative; }
+        .checklist li::before { content: "☐"; position: absolute; left: 0; font-size: 1.2rem; }
+
+        .schema-box {
+            background: var(--color-gray-100);
+            border-left: 4px solid var(--color-primary);
+            border-radius: 0 8px 8px 0;
+            padding: 24px 28px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .note-box {
+            padding: 16px 24px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 1.05rem;
+        }
+        .note-info { background: #D1ECF1; }
+        .note-warning { background: #FFF3CD; }
+        .note-success { background: #D4EDDA; }
+        .note-danger { background: #F8D7DA; }
+
+        .live-demo-tag {
+            display: inline-block;
+            background: var(--color-success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .google-result {
+            background: var(--color-white);
+            border-radius: 8px;
+            padding: 24px 28px;
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: var(--shadow-soft);
+        }
+        .google-result .gr-title { color: #1a0dab; font-size: 1.2rem; font-weight: 400; text-decoration: underline; margin-bottom: 4px; }
+        .google-result .gr-url { color: #006621; font-size: 0.9rem; margin-bottom: 6px; }
+        .google-result .gr-desc { color: #4d5156; font-size: 0.95rem; line-height: 1.5; }
+
+        .prompt-box {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 20px 24px;
+            text-align: left;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide.active .content { animation: fadeInUp 0.5s ease-out; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- SLIDE 1: Cover -->
+    <div class="slide active bg-gradient-dark">
+        <div class="content">
+            <p class="label">Formazione Shopify — Giochi3</p>
+            <h1>SEO Scheda Prodotto<br><span class="highlight">e Enrichment Metafield</span></h1>
+            <p class="subtitle">Come ottimizzare ogni prodotto per Google e arricchirlo con dati strutturati</p>
+            <p style="margin-top: 48px; opacity: 0.5; font-size: 0.95rem;">Luglio 2026 — Team Marketing & Category Manager</p>
+            <p style="margin-top: 16px; opacity: 0.4; font-size: 0.85rem;">Premi → per iniziare</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Indice -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Indice</p>
+            <h2>Contenuti della lezione</h2>
+            <div class="two-cols" style="margin-top: 28px;">
+                <div>
+                    <h3 style="color: var(--color-primary); margin-bottom: 20px;">Teoria & Concetti</h3>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">1. Come funziona Google (spiegato semplice)</li>
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">2. I 3 pilastri SEO della scheda prodotto</li>
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">3. Meta Title — regole ed esempi</li>
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">4. Meta Description — regole ed esempi</li>
+                        <li style="padding: 6px 0;">5. URL Handle — regole ed esempi</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-secondary); margin-bottom: 20px;">Pratica & Strumenti</h3>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">6. Il flusso operativo completo</li>
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">7. Enrichment con Metafield</li>
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">8. Scrivere con l'AI (prompt template)</li>
+                        <li style="padding: 6px 0; border-bottom: 1px solid var(--color-gray-200);">9. Errori comuni & Prioritizzazione</li>
+                        <li style="padding: 6px 0;">10. Checklist finale</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PARTE 1: COME FUNZIONA GOOGLE              -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 3: Metafora biblioteca -->
+    <div class="slide bg-gradient-dark">
+        <span class="section-number">01</span>
+        <div class="content">
+            <p class="label">Parte 1 — La teoria</p>
+            <h1>Come funziona Google<br><span class="highlight">spiegato semplice</span></h1>
+            <p class="subtitle">Immagina Google come una biblioteca gigante</p>
+            <p style="font-size: 1.15rem; opacity: 0.85; max-width: 700px; margin: 0 auto;">Contiene tutte le pagine web del mondo. Quando qualcuno cerca "passeggino leggero per neonato", Google deve decidere quale pagina mostrare per prima.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: I 3 passaggi -->
+    <div class="slide bg-dark">
+        <div class="content">
+            <h2>Google lavora in 3 passaggi</h2>
+            <div class="three-cols" style="margin-top: 40px; text-align: center;">
+                <div class="card-dark">
+                    <div class="icon-block">🤖</div>
+                    <h3>1. Scansione</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">I robot di Google visitano ogni pagina del tuo sito, come un bibliotecario che sfoglia i libri nuovi.</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">📚</div>
+                    <h3>2. Archiviazione</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">Legge il contenuto e lo cataloga. "Questo parla di passeggini… lo metto nello scaffale passeggini."</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">🏆</div>
+                    <h3>3. Classificazione</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">Quando qualcuno cerca, ordina i risultati dal piu utile al meno utile. Chi sta in cima prende piu clic.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Cosa c'entra con la scheda prodotto -->
+    <div class="slide bg-white">
+        <div class="content">
+            <h2>Cosa c'entra con la scheda prodotto?</h2>
+            <p style="font-size: 1.3rem; margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">Ogni prodotto su Shopify e una <strong>pagina web</strong> a tutti gli effetti.</p>
+            <div class="two-cols" style="margin-top: 40px;">
+                <div class="card" style="border-left: 4px solid var(--color-success);">
+                    <div class="icon-block">✅</div>
+                    <h3 style="color: var(--color-success);">Scheda compilata bene</h3>
+                    <p style="font-size: 1.05rem;">Google capisce di cosa parla → la mostra in alto → ricevi traffico gratuito</p>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--color-primary);">
+                    <div class="icon-block">❌</div>
+                    <h3 style="color: var(--color-primary);">Scheda vuota o generica</h3>
+                    <p style="font-size: 1.05rem;">Google non la capisce → la nasconde in fondo → nessuno la trova</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: L'equazione semplice -->
+    <div class="slide bg-light">
+        <div class="content">
+            <h2>L'equazione della SEO</h2>
+            <div style="background: var(--color-white); border-radius: var(--radius); padding: 40px; box-shadow: var(--shadow-medium); margin-top: 32px;">
+                <p style="font-size: 1.8rem; font-weight: 700; color: var(--color-dark);">
+                    Parole giuste nei posti giusti<br>
+                    <span style="font-size: 2.5rem; color: var(--color-accent);">+</span><br>
+                    Contenuto utile e completo<br>
+                    <span style="font-size: 2.5rem; color: var(--color-accent);">=</span><br>
+                    <span style="color: var(--color-success);">Piu visibilita su Google</span>
+                </p>
+            </div>
+            <div class="note-box note-info" style="max-width: 700px; margin: 24px auto 0;">
+                <strong>La domanda chiave:</strong> "Cosa scriverebbe un genitore su Google per trovare questo prodotto?" — La risposta e la tua <strong>keyword principale</strong>.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Perche la SEO e importante -->
+    <div class="slide bg-dark">
+        <div class="content">
+            <h2>Perche la SEO e importante per Giochi3</h2>
+            <table style="margin-top: 32px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <tr><th>Canale</th><th>Costo</th><th>Durata</th></tr>
+                <tr><td>Google Ads</td><td>Paghi per ogni clic</td><td>Si spegne quando smetti di pagare</td></tr>
+                <tr><td>Social Ads</td><td>Paghi per impression</td><td>Si spegne quando smetti di pagare</td></tr>
+                <tr><td style="color: var(--color-accent); font-weight: 700;">SEO (organico)</td><td style="color: var(--color-accent); font-weight: 700;">Tempo del team</td><td style="color: var(--color-accent); font-weight: 700;">Dura nel tempo, si accumula</td></tr>
+            </table>
+            <p style="margin-top: 40px; font-size: 1.3rem; color: var(--color-accent);">Ogni scheda ben ottimizzata e un "venditore" che lavora 24/7 senza costo per clic.</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PARTE 2: I 3 PILASTRI SEO                  -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 8: Section divider -->
+    <div class="slide bg-gradient-warm">
+        <span class="section-number" style="opacity: 0.06;">02</span>
+        <div class="content">
+            <p class="label">Parte 2</p>
+            <h1>I 3 Pilastri SEO<br><span style="color: rgba(255,255,255,0.9);">della Scheda Prodotto</span></h1>
+            <p class="subtitle">Meta Title · Meta Description · URL Handle</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: Dove si trovano -->
+    <div class="slide bg-white">
+        <div class="content">
+            <h2>Dove si trovano in Shopify</h2>
+            <div class="two-cols" style="margin-top: 32px;">
+                <div>
+                    <ol style="font-size: 1.15rem;">
+                        <li>Apri la scheda prodotto</li>
+                        <li>Scorri in fondo</li>
+                        <li>Sezione <strong>"Anteprima motore di ricerca"</strong></li>
+                        <li>Clicca <strong>"Modifica"</strong></li>
+                    </ol>
+                    <p style="margin-top: 24px; font-size: 1.1rem;">Trovi i 3 campi:</p>
+                    <div style="margin-top: 12px;">
+                        <span class="badge badge-blue">Meta Title</span>
+                        <span class="badge badge-green">Meta Description</span>
+                        <span class="badge badge-yellow">URL Handle</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="google-result">
+                        <div class="gr-title">Body Neonato Cotone Bio Manica Lunga - Chicco | Giochi3</div>
+                        <div class="gr-url">giochi3.it/products/chicco-body-neonato-cotone-bio</div>
+                        <div class="gr-desc">Body in cotone 100% biologico certificato GOTS. Apertura con bottoncini per cambio facile. Taglie 0-12 mesi. Spedizione gratis sopra €49.</div>
+                    </div>
+                    <p style="margin-top: 16px; font-size: 0.95rem; color: var(--color-gray-600); text-align: center;">← Ecco come appare su Google un prodotto ben compilato</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: Meta Title - regole -->
+    <div class="slide bg-primary">
+        <div class="content">
+            <p class="label">Pilastro 1</p>
+            <h1>Meta Title</h1>
+            <p class="subtitle">La riga blu su Google — il campo piu importante per la SEO</p>
+            <div class="three-cols" style="margin-top: 32px; text-align: center;">
+                <div class="card-dark">
+                    <h3 style="font-size: 3rem; margin-bottom: 8px;">60</h3>
+                    <p style="font-size: 1rem;">caratteri massimo</p>
+                </div>
+                <div class="card-dark">
+                    <h3 style="font-size: 3rem; margin-bottom: 8px;">1°</h3>
+                    <p style="font-size: 1rem;">keyword all'inizio</p>
+                </div>
+                <div class="card-dark">
+                    <h3 style="font-size: 3rem; margin-bottom: 8px;">Brand</h3>
+                    <p style="font-size: 1rem;">sempre incluso</p>
+                </div>
+            </div>
+            <div style="margin-top: 32px; padding: 16px 24px; background: rgba(0,0,0,0.2); border-radius: 8px; font-family: monospace; font-size: 1.2rem;">
+                [Keyword Prodotto] [Attributo chiave] - [Brand] | Giochi3
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 11: Meta Title - Esempi Abbigliamento -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Meta Title — Esempi</p>
+            <h2>👕 Abbigliamento Bambini</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>Prodotto</th><th>Meta Title</th><th>Car.</th></tr>
+                <tr><td>Body manica lunga Chicco</td><td><code>Body Neonato Cotone Bio Manica Lunga - Chicco | Giochi3</code></td><td>55</td></tr>
+                <tr><td>Tutina intera invernale</td><td><code>Tutina Invernale Neonato con Piedini - Petit Bateau | Giochi3</code></td><td>58</td></tr>
+                <tr><td>Pigiama bimba unicorno</td><td><code>Pigiama Bambina Unicorno 3-8 Anni - Disney | Giochi3</code></td><td>52</td></tr>
+                <tr><td>Giacca impermeabile</td><td><code>Giacca Impermeabile Bambino Leggera - CMP Kids | Giochi3</code></td><td>55</td></tr>
+            </table>
+            <div class="note-box note-danger" style="font-size: 0.95rem;">
+                <strong>❌ Errori:</strong> "Chicco Body 1234" (codice) · "BODY BELLISSIMO OFFERTA ACQUISTA ORA" (spam) · "Body" (troppo generico)
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: Meta Title - Esempi Calzature -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Meta Title — Esempi</p>
+            <h2>👟 Calzature</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>Prodotto</th><th>Meta Title</th><th>Car.</th></tr>
+                <tr><td>Scarpe primi passi</td><td><code>Scarpe Primi Passi Neonato Pelle Morbida - Bobux | Giochi3</code></td><td>57</td></tr>
+                <tr><td>Sandali estivi bimba</td><td><code>Sandali Bambina Estate Chiusura Velcro - Geox | Giochi3</code></td><td>54</td></tr>
+                <tr><td>Stivali pioggia</td><td><code>Stivali Pioggia Bambino Impermeabili - Crocs Kids | Giochi3</code></td><td>55</td></tr>
+                <tr><td>Sneakers con luci</td><td><code>Sneakers Bambino con Luci LED - Skechers | Giochi3</code></td><td>51</td></tr>
+            </table>
+            <div class="note-box note-danger" style="font-size: 0.95rem;">
+                <strong>❌ Errori:</strong> "Geox scarpa" (troppo corto) · "Scarpe bambini scarpe bimbi scarpe ragazzi" (ripetizione keyword)
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 13: Meta Title - Esempi Pappa -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Meta Title — Esempi</p>
+            <h2>🍼 Alimentazione e Pappa</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>Prodotto</th><th>Meta Title</th><th>Car.</th></tr>
+                <tr><td>Biberon anticolica</td><td><code>Biberon Anticolica Neonato 260ml - Philips Avent | Giochi3</code></td><td>56</td></tr>
+                <tr><td>Seggiolone pappa</td><td><code>Seggiolone Pappa Evolutivo Reclinabile - Chicco Polly | Giochi3</code></td><td>59</td></tr>
+                <tr><td>Set piatti svezzamento</td><td><code>Set Piatti Svezzamento Antiscivolo - Munchkin | Giochi3</code></td><td>54</td></tr>
+                <tr><td>Scaldabiberon</td><td><code>Scaldabiberon Rapido Universale - Chicco | Giochi3</code></td><td>49</td></tr>
+            </table>
+            <div class="note-box note-danger" style="font-size: 0.95rem;">
+                <strong>❌ Errori:</strong> "Avent biberon natural" (manca contesto) · "Biberon per neonati bambini infanti lattanti" (keyword stuffing)
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 14: Meta Title - Esempi Passeggini -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Meta Title — Esempi</p>
+            <h2>🚼 Passeggini</h2>
+            <table style="margin-top: 24px;">
+                <tr><th>Prodotto</th><th>Meta Title</th><th>Car.</th></tr>
+                <tr><td>Passeggino leggero</td><td><code>Passeggino Leggero Chiusura Libro - Chicco Ohlala | Giochi3</code></td><td>57</td></tr>
+                <tr><td>Trio sistema modulare</td><td><code>Trio Passeggino Navicella Ovetto - Inglesina Aptica | Giochi3</code></td><td>58</td></tr>
+                <tr><td>Passeggino gemellare</td><td><code>Passeggino Gemellare Affiancato Compatto - Chicco | Giochi3</code></td><td>56</td></tr>
+                <tr><td>Ovetto auto</td><td><code>Ovetto Auto Neonato i-Size 0-13kg - Cybex Aton | Giochi3</code></td><td>53</td></tr>
+            </table>
+            <div class="note-box note-warning" style="font-size: 0.95rem;">
+                <strong>⚠️ Attenzione:</strong> Se superi 60 caratteri Google taglia con "...". Conta sempre!
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 15: Meta Description - regole -->
+    <div class="slide bg-secondary">
+        <div class="content">
+            <p class="label">Pilastro 2</p>
+            <h1>Meta Description</h1>
+            <p class="subtitle">Le 2 righe grigie sotto il titolo — convincono l'utente a cliccare</p>
+            <div class="three-cols" style="margin-top: 32px; text-align: center;">
+                <div class="card-dark">
+                    <h3 style="font-size: 3rem; margin-bottom: 8px;">155</h3>
+                    <p style="font-size: 1rem;">caratteri massimo</p>
+                </div>
+                <div class="card-dark">
+                    <h3 style="font-size: 3rem; margin-bottom: 8px;">1+</h3>
+                    <p style="font-size: 1rem;">beneficio concreto</p>
+                </div>
+                <div class="card-dark">
+                    <h3 style="font-size: 3rem; margin-bottom: 8px;">CTA</h3>
+                    <p style="font-size: 1rem;">o vantaggio finale</p>
+                </div>
+            </div>
+            <div style="margin-top: 32px; padding: 16px 24px; background: rgba(0,0,0,0.2); border-radius: 8px; font-family: monospace; font-size: 1.1rem;">
+                [Descrizione con keyword] + [Beneficio] + [CTA o Vantaggio]
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 16: Meta Description - Esempi Abbigliamento + Calzature -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-secondary);">Meta Description — Esempi</p>
+            <h2>👕 Abbigliamento & 👟 Calzature</h2>
+            <table style="margin-top: 20px; font-size: 0.95rem;">
+                <tr><th>Prodotto</th><th>Meta Description</th></tr>
+                <tr><td>Body cotone bio</td><td>"Body neonato in cotone biologico certificato GOTS. Manica lunga, apertura con bottoncini. Taglie 0-12 mesi. Spedizione gratis sopra €49."</td></tr>
+                <tr><td>Pigiama unicorno</td><td>"Pigiama bambina con stampa unicorno e brillantini. Cotone 100%, elastico morbido. Dai 3 agli 8 anni. Consegna in 24-48h."</td></tr>
+                <tr><td>Scarpe primi passi</td><td>"Scarpe primi passi in pelle morbida con suola flessibile. Supporto caviglia, chiusura velcro. Dalla taglia 18 alla 24. Reso gratuito."</td></tr>
+                <tr><td>Stivali pioggia</td><td>"Stivali impermeabili bambino con fodera calda. Materiale leggero, facili da infilare. Ideali per pioggia e fango. Dal 22 al 34."</td></tr>
+            </table>
+            <div class="note-box note-success" style="font-size: 0.9rem;">
+                <strong>💡 Tip:</strong> Usa numeri concreti (peso, misure, eta) → attirano l'occhio nella SERP. Rispondi a: "Perche un genitore dovrebbe comprare QUESTO?"
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 17: Meta Description - Esempi Pappa + Passeggini -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-secondary);">Meta Description — Esempi</p>
+            <h2>🍼 Pappa & 🚼 Passeggini</h2>
+            <table style="margin-top: 20px; font-size: 0.95rem;">
+                <tr><th>Prodotto</th><th>Meta Description</th></tr>
+                <tr><td>Biberon anticolica</td><td>"Biberon con valvola anticolica AirFree. Riduce aria e rigurgiti. Tettarella morbida flusso lento. Ideale da 0 mesi. Scopri tutti i formati."</td></tr>
+                <tr><td>Seggiolone</td><td>"Seggiolone evolutivo reclinabile in 4 posizioni. Vassoio lavabile in lavastoviglie. Da 6 mesi a 3 anni. Consegna rapida a casa tua."</td></tr>
+                <tr><td>Passeggino leggero</td><td>"Passeggino ultraleggero (3,8 kg) chiusura a libro una mano. Cappottina UPF50+. Dai 6 mesi. Spedizione gratuita e reso facile."</td></tr>
+                <tr><td>Trio Inglesina</td><td>"Sistema modulare trio: passeggino, navicella e ovetto omologato. Ruote ammortizzate. Dalla nascita ai 4 anni. Scopri i colori."</td></tr>
+            </table>
+            <div class="note-box note-info" style="font-size: 0.9rem;">
+                <strong>Ricorda:</strong> Max 155 caratteri. Le emoji NON funzionano nella meta description Shopify.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 18: URL Handle - regole ed esempi -->
+    <div class="slide bg-gradient-dark">
+        <div class="content">
+            <p class="label">Pilastro 3</p>
+            <h1>URL Handle</h1>
+            <p class="subtitle">L'indirizzo web del prodotto: giochi3.it/products/<span class="highlight">qui-va-il-tuo-handle</span></p>
+            <div class="two-cols" style="margin-top: 32px;">
+                <div class="card-dark">
+                    <h3>✅ Regole</h3>
+                    <ul style="font-size: 1rem;">
+                        <li>Solo minuscole + trattini</li>
+                        <li>Includi keyword principale</li>
+                        <li>3-5 parole massimo</li>
+                        <li>Niente codici o articoli</li>
+                    </ul>
+                    <p style="margin-top: 16px; font-family: monospace; font-size: 1rem; color: var(--color-accent);">[brand]-[tipo]-[attributo]</p>
+                </div>
+                <div class="card-dark">
+                    <h3>Esempi</h3>
+                    <table style="font-size: 0.9rem;">
+                        <tr><th>✅ Corretto</th><th>❌ Sbagliato</th></tr>
+                        <tr><td>chicco-body-neonato-cotone-bio</td><td>PRD-12345</td></tr>
+                        <tr><td>bobux-scarpe-primi-passi-pelle</td><td>scarpa-bobux-art-4521-col-beige</td></tr>
+                        <tr><td>philips-avent-biberon-anticolica</td><td>biberon-260-ml-scu-123</td></tr>
+                        <tr><td>chicco-ohlala-passeggino-leggero</td><td>PSG-CHI-OHL-BLK</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 24px; padding: 12px 20px; background: rgba(244,162,97,0.2); border-radius: 8px; font-size: 1rem;">
+                💡 Quando cambi l'URL handle, Shopify crea automaticamente un redirect dal vecchio al nuovo URL. Nessuna azione manuale richiesta!
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PARTE 3: FLUSSO OPERATIVO                  -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 19: Section divider Flusso -->
+    <div class="slide bg-gradient-warm">
+        <span class="section-number" style="opacity: 0.06;">03</span>
+        <div class="content">
+            <p class="label">Parte 3</p>
+            <h1>La Descrizione Prodotto<br><span style="color: rgba(255,255,255,0.9);">Il contenuto che vende e posiziona</span></h1>
+        </div>
+    </div>
+
+    <!-- SLIDE: Perche la descrizione e importante -->
+    <div class="slide bg-white">
+        <div class="content">
+            <h2>Perche la descrizione prodotto conta</h2>
+            <div class="three-cols" style="margin-top: 36px; text-align: center;">
+                <div class="card">
+                    <div class="icon-block">🔍</div>
+                    <h3>SEO</h3>
+                    <p style="font-size: 1rem;">Google legge la descrizione per capire di cosa parla la pagina. Piu keyword naturali = piu visibilita.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-block">🛒</div>
+                    <h3>Conversione</h3>
+                    <p style="font-size: 1rem;">Il genitore ha bisogno di essere convinto. Una descrizione completa riduce i dubbi e aumenta gli acquisti.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-block">↩️</div>
+                    <h3>Meno resi</h3>
+                    <p style="font-size: 1rem;">Info chiare = aspettative corrette = meno resi per "non era come immaginavo".</p>
+                </div>
+            </div>
+            <div class="note-box note-info" style="max-width: 700px; margin: 24px auto 0;">
+                <strong>Regola:</strong> Minimo 100-150 parole. La descrizione deve rispondere a: "Perche dovrei comprare questo prodotto per il mio bambino?"
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Struttura ideale descrizione -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <h2>Struttura ideale della descrizione</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div>
+                    <div class="schema-box" style="font-size: 0.95rem; line-height: 1.8;">
+                        <strong>[Paragrafo 1]</strong> Beneficio principale + keyword<br>
+                        → Cattura l'attenzione, spiega cos'e e perche e utile<br><br>
+                        <strong>[Elenco puntato]</strong> 4-6 caratteristiche tecniche<br>
+                        → Dati concreti: materiale, misure, eta, certificazioni<br><br>
+                        <strong>[Paragrafo finale]</strong> Per chi e adatto + rassicurazione<br>
+                        → Eta, occasione d'uso, garanzia/reso
+                    </div>
+                </div>
+                <div>
+                    <h3>Regole d'oro</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li><strong>Non copiare</strong> dal sito del produttore (contenuto duplicato)</li>
+                        <li><strong>Usa keyword</strong> in modo naturale, non forzato</li>
+                        <li><strong>Pensa al genitore</strong>, non al motore di ricerca</li>
+                        <li><strong>Benefici prima</strong>, specifiche tecniche dopo</li>
+                        <li><strong>Linguaggio semplice</strong>, frasi brevi</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Esempio Abbigliamento - prima e dopo -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Descrizione — Esempio</p>
+            <h2>👕 Body Neonato Cotone Bio — Chicco</h2>
+            <div class="two-cols" style="margin-top: 20px;">
+                <div>
+                    <h3 style="color: var(--color-primary);">❌ Descrizione scarsa</h3>
+                    <div style="padding: 16px; background: #F8D7DA; border-radius: 8px; font-size: 0.95rem; line-height: 1.6;">
+                        Body Chicco manica lunga. Cotone. Disponibile in varie taglie.
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--color-gray-600); margin-top: 8px;">12 parole. Nessuna keyword utile. Nessun beneficio. Google non ha nulla da indicizzare.</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-success);">✅ Descrizione ottimizzata</h3>
+                    <div style="padding: 16px; background: #D4EDDA; border-radius: 8px; font-size: 0.9rem; line-height: 1.6;">
+                        <strong>Il body neonato in cotone biologico Chicco</strong> e perfetto per la pelle delicata dei piu piccoli. Morbido, traspirante e certificato GOTS, garantisce comfort tutto il giorno.<br><br>
+                        <strong>Caratteristiche:</strong><br>
+                        • Cotone 100% biologico certificato GOTS<br>
+                        • Manica lunga per le mezze stagioni<br>
+                        • Apertura con bottoncini a pressione sul fondo<br>
+                        • Cuciture piatte per evitare irritazioni<br>
+                        • Lavabile in lavatrice a 40°<br><br>
+                        Ideale dalla nascita ai 12 mesi. Perfetto come primo cambio o come regalo nascita.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Esempio Calzature -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Descrizione — Esempio</p>
+            <h2>👟 Scarpe Primi Passi — Bobux</h2>
+            <div class="two-cols" style="margin-top: 20px;">
+                <div>
+                    <h3 style="color: var(--color-primary);">❌ Descrizione scarsa</h3>
+                    <div style="padding: 16px; background: #F8D7DA; border-radius: 8px; font-size: 0.95rem; line-height: 1.6;">
+                        Scarpa Bobux primi passi. Pelle. Suola flessibile. Velcro.
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--color-gray-600); margin-top: 8px;">Solo una lista di parole. Non convince, non spiega, non posiziona.</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-success);">✅ Descrizione ottimizzata</h3>
+                    <div style="padding: 16px; background: #D4EDDA; border-radius: 8px; font-size: 0.9rem; line-height: 1.6;">
+                        <strong>Le scarpe primi passi Bobux in pelle morbida</strong> accompagnano il tuo bambino nella scoperta del mondo. La suola ultraflessibile segue il movimento naturale del piedino, favorendo un corretto sviluppo.<br><br>
+                        <strong>Caratteristiche:</strong><br>
+                        • Pelle naturale morbida e traspirante<br>
+                        • Suola flessibile con grip antiscivolo<br>
+                        • Chiusura velcro regolabile (facile da infilare)<br>
+                        • Supporto caviglia morbido, non rigido<br>
+                        • Plantare anatomico estraibile<br><br>
+                        Consigliate dai 10 ai 24 mesi, quando il bimbo inizia a muovere i primi passi in autonomia.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Esempio Pappa -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Descrizione — Esempio</p>
+            <h2>🍼 Biberon Anticolica — Philips Avent</h2>
+            <div class="two-cols" style="margin-top: 20px;">
+                <div>
+                    <h3 style="color: var(--color-primary);">❌ Descrizione scarsa</h3>
+                    <div style="padding: 16px; background: #F8D7DA; border-radius: 8px; font-size: 0.95rem; line-height: 1.6;">
+                        Biberon Avent 260ml anticolica. Tettarella silicone. Senza BPA.
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--color-gray-600); margin-top: 8px;">Sembra un elenco di specifiche, non una descrizione. Non risponde a nessuna domanda del genitore.</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-success);">✅ Descrizione ottimizzata</h3>
+                    <div style="padding: 16px; background: #D4EDDA; border-radius: 8px; font-size: 0.9rem; line-height: 1.6;">
+                        <strong>Il biberon anticolica Philips Avent Natural Response</strong> riduce significativamente l'ingestione d'aria durante la poppata, aiutando a prevenire coliche e rigurgiti.<br><br>
+                        <strong>Caratteristiche:</strong><br>
+                        • Valvola AirFree integrata: meno aria, meno fastidio<br>
+                        • Tettarella in silicone morbido a flusso lento<br>
+                        • Capacita 260 ml — ideale dai 0 mesi<br>
+                        • Materiale senza BPA, sicuro e resistente<br>
+                        • Compatibile con tutti i biberon della linea Avent<br>
+                        • Lavabile in lavastoviglie e sterilizzabile<br><br>
+                        Perfetto per neonati allattati al seno e al biberon. La forma della tettarella facilita il passaggio seno-biberon.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Esempio Passeggini -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Descrizione — Esempio</p>
+            <h2>🚼 Passeggino Leggero — Chicco Ohlala</h2>
+            <div class="two-cols" style="margin-top: 20px;">
+                <div>
+                    <h3 style="color: var(--color-primary);">❌ Descrizione scarsa</h3>
+                    <div style="padding: 16px; background: #F8D7DA; border-radius: 8px; font-size: 0.95rem; line-height: 1.6;">
+                        Passeggino Chicco Ohlala. Leggero. Chiusura libro. Dai 6 mesi. Colore nero.
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--color-gray-600); margin-top: 8px;">Elenca dati ma non spiega perche sceglierlo. Nessun vantaggio per il genitore.</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-success);">✅ Descrizione ottimizzata</h3>
+                    <div style="padding: 16px; background: #D4EDDA; border-radius: 8px; font-size: 0.9rem; line-height: 1.6;">
+                        <strong>Il Chicco Ohlala e il passeggino ultraleggero</strong> (solo 3,8 kg!) pensato per i genitori sempre in movimento. Si chiude con una sola mano in un gesto, ideale per salire sui mezzi pubblici o riporre nel bagagliaio.<br><br>
+                        <strong>Caratteristiche:</strong><br>
+                        • Peso: solo 3,8 kg — tra i piu leggeri sul mercato<br>
+                        • Chiusura a libro con una mano<br>
+                        • Cappottina estensibile con protezione UPF 50+<br>
+                        • Schienale reclinabile in piu posizioni<br>
+                        • Include parapioggia e coprigambe<br>
+                        • Cestello portaoggetti capiente<br><br>
+                        Adatto dai 6 mesi ai 15 kg (circa 3 anni). Perfetto come secondo passeggino da viaggio o per la vita in citta.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Section divider Flusso operativo -->
+    <div class="slide bg-gradient-warm">
+        <span class="section-number" style="opacity: 0.06;">04</span>
+        <div class="content">
+            <p class="label">Parte 4</p>
+            <h1>Il Flusso Operativo<br><span style="color: rgba(255,255,255,0.9);">Da Infinity a Shopify</span></h1>
+            <p class="subtitle">Compilate in Infinity → arriva su Shopify → verificate</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 20: Flusso visuale -->
+    <div class="slide bg-dark">
+        <div class="content">
+            <h2>Il workflow step-by-step</h2>
+            <p style="opacity: 0.7; font-size: 1rem; margin-bottom: 24px;">Tutto viene compilato in <strong>Infinity</strong> (il gestionale). I dati arrivano su Shopify tramite middleware. Su Shopify si fa solo la <strong>verifica</strong>.</p>
+            <div style="margin-top: 16px; text-align: left; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                    <span class="badge badge-yellow" style="min-width: 100px; text-align: center;">Infinity</span>
+                    <span style="font-size: 1.1rem;">Compila <strong>titolo</strong> e <strong>descrizione</strong> del prodotto</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                    <span class="badge badge-yellow" style="min-width: 100px; text-align: center;">Infinity</span>
+                    <span style="font-size: 1.1rem;">Compila <strong>meta title</strong> e <strong>meta description</strong></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                    <span class="badge badge-yellow" style="min-width: 100px; text-align: center;">Infinity</span>
+                    <span style="font-size: 1.1rem;">Compila <strong>tutti gli attributi</strong> (metafield)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px; opacity: 0.5;">
+                    <span class="badge badge-blue" style="min-width: 100px; text-align: center;">Middleware</span>
+                    <span style="font-size: 1.1rem;">Sincronizza automaticamente i dati su Shopify</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <span class="badge badge-green" style="min-width: 100px; text-align: center;">Shopify</span>
+                    <span style="font-size: 1.1rem;"><strong>Verifica</strong> che i dati siano arrivati correttamente</span>
+                </div>
+            </div>
+            <div style="margin-top: 24px; padding: 12px 20px; background: rgba(255,255,255,0.08); border-radius: 8px; font-size: 0.95rem;">
+                💡 <strong>Alt text immagini prodotto:</strong> viene impostato automaticamente dall'algoritmo. Non dovete modificarlo.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 21: Prima e Dopo -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <h2>Prima e Dopo: esempio reale</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div class="card" style="border-left: 4px solid var(--color-primary);">
+                    <h3 style="color: var(--color-primary);">❌ PRIMA (Infinity non compilato)</h3>
+                    <ul style="font-size: 1rem; margin-top: 12px;">
+                        <li><strong>Titolo:</strong> CHICCO POLLY PROGRES5 GREY</li>
+                        <li><strong>Descrizione:</strong> vuota</li>
+                        <li><strong>Meta title / description:</strong> non compilati</li>
+                        <li><strong>Attributi:</strong> tutti vuoti</li>
+                    </ul>
+                    <div class="google-result" style="margin-top: 16px; box-shadow: none; border: 1px solid var(--color-gray-200); padding: 16px;">
+                        <div class="gr-title">CHICCO POLLY PROGRES5 GREY — Giochi3</div>
+                        <div class="gr-url">giochi3.it/products/prod-ch-5765-gry</div>
+                        <div class="gr-desc">Acquista CHICCO POLLY PROGRES5 GREY su Giochi3.</div>
+                    </div>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--color-success);">
+                    <h3 style="color: var(--color-success);">✅ DOPO (Infinity compilato bene)</h3>
+                    <ul style="font-size: 1rem; margin-top: 12px;">
+                        <li><strong>Titolo:</strong> Chicco Polly Progres5 - Seggiolone Evolutivo 5in1</li>
+                        <li><strong>Descrizione:</strong> testo con benefici e specifiche</li>
+                        <li><strong>Meta title / description:</strong> SEO-friendly</li>
+                        <li><strong>Attributi:</strong> eta, peso, dimensioni...</li>
+                    </ul>
+                    <div class="google-result" style="margin-top: 16px; box-shadow: none; border: 1px solid var(--color-gray-200); padding: 16px;">
+                        <div class="gr-title">Seggiolone Evolutivo 5in1 Chicco Polly Progres5 | Giochi3</div>
+                        <div class="gr-url">giochi3.it/products/chicco-polly-progres5-seggiolone-evolutivo</div>
+                        <div class="gr-desc">Seggiolone 5in1 che cresce con il tuo bambino. Vassoio lavabile, 4 posizioni reclinazione. Da 0 a 3 anni. Spedizione gratis sopra €49.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PARTE 4: ENRICHMENT METAFIELD              -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 22: Section divider Metafield -->
+    <div class="slide bg-gradient-dark">
+        <span class="section-number" style="opacity: 0.06;">04</span>
+        <div class="content">
+            <p class="label">Parte 4</p>
+            <h1>Enrichment<br><span class="highlight">Metafield</span></h1>
+            <p class="subtitle">Arricchire la scheda con dati strutturati che generano valore</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 23: Perche i metafield -->
+    <div class="slide bg-white">
+        <div class="content">
+            <h2>Perche i metafield sono fondamentali</h2>
+            <div class="three-cols" style="margin-top: 36px; text-align: center;">
+                <div class="card">
+                    <div class="icon-block">🔍</div>
+                    <h3>Filtri di ricerca</h3>
+                    <p style="font-size: 1rem;">Il cliente filtra per eta, materiale, brand nel catalogo</p>
+                </div>
+                <div class="card">
+                    <div class="icon-block">⭐</div>
+                    <h3>Rich Snippet</h3>
+                    <p style="font-size: 1rem;">Google mostra stelle, prezzo, disponibilita nei risultati</p>
+                </div>
+                <div class="card">
+                    <div class="icon-block">↩️</div>
+                    <h3>Meno resi</h3>
+                    <p style="font-size: 1rem;">Info chiare = meno acquisti sbagliati = meno resi</p>
+                </div>
+            </div>
+            <div class="two-cols" style="margin-top: 24px; text-align: center;">
+                <div class="card">
+                    <div class="icon-block">🛒</div>
+                    <h3>Google Shopping</h3>
+                    <p style="font-size: 1rem;">I metafield alimentano il feed per le campagne Shopping</p>
+                </div>
+                <div class="card">
+                    <div class="icon-block">📋</div>
+                    <h3>Scheda completa</h3>
+                    <p style="font-size: 1rem;">Il cliente trova tutto senza cercare altrove</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 24: Metafield comuni -->
+    <div class="slide bg-dark">
+        <div class="content content-left">
+            <h2>Metafield comuni a tutte le categorie</h2>
+            <table style="margin-top: 24px; font-size: 0.95rem;">
+                <tr><th>Metafield</th><th>Tipo</th><th>Esempio</th><th>Uso nel tema</th></tr>
+                <tr><td><code>custom.eta_minima</code></td><td>Numero</td><td>0</td><td>Filtro eta, badge</td></tr>
+                <tr><td><code>custom.eta_massima</code></td><td>Numero</td><td>36</td><td>Filtro eta</td></tr>
+                <tr><td><code>custom.materiale</code></td><td>Testo</td><td>Cotone biologico GOTS</td><td>Tab specifiche</td></tr>
+                <tr><td><code>custom.peso_prodotto</code></td><td>Testo</td><td>3.8 kg</td><td>Tab specifiche</td></tr>
+                <tr><td><code>custom.dimensioni</code></td><td>Testo</td><td>55 x 84 x 106 cm</td><td>Tab specifiche</td></tr>
+                <tr><td><code>custom.certificazioni</code></td><td>Testo</td><td>CE, GOTS, Oeko-Tex</td><td>Badge sicurezza</td></tr>
+                <tr><td><code>custom.video_youtube</code></td><td>URL</td><td>https://youtu.be/...</td><td>Player in scheda</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- SLIDE 25: Metafield per categoria -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <h2>Metafield specifici per categoria</h2>
+            <div class="two-cols" style="margin-top: 20px;">
+                <div>
+                    <h3>👕 Abbigliamento</h3>
+                    <table style="font-size: 0.85rem; margin-bottom: 20px;">
+                        <tr><th>Campo</th><th>Esempio</th></tr>
+                        <tr><td>Composizione</td><td>95% cotone, 5% elastan</td></tr>
+                        <tr><td>Istruzioni lavaggio</td><td>Lavare a 40°</td></tr>
+                        <tr><td>Vestibilita</td><td>Regular / Slim</td></tr>
+                        <tr><td>Stagione</td><td>Autunno-Inverno 2026</td></tr>
+                    </table>
+                    <h3>🍼 Alimentazione</h3>
+                    <table style="font-size: 0.85rem;">
+                        <tr><th>Campo</th><th>Esempio</th></tr>
+                        <tr><td>Capacita</td><td>260 ml</td></tr>
+                        <tr><td>Senza BPA</td><td>Si</td></tr>
+                        <tr><td>Lavabile lavastoviglie</td><td>Si</td></tr>
+                        <tr><td>Compatibilita</td><td>Tutti biberon Avent</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h3>👟 Calzature</h3>
+                    <table style="font-size: 0.85rem; margin-bottom: 20px;">
+                        <tr><th>Campo</th><th>Esempio</th></tr>
+                        <tr><td>Tipo chiusura</td><td>Velcro / Lacci / Zip</td></tr>
+                        <tr><td>Tipo suola</td><td>Gomma antiscivolo</td></tr>
+                        <tr><td>Plantare</td><td>Anatomico estraibile</td></tr>
+                        <tr><td>Impermeabile</td><td>Si / No</td></tr>
+                    </table>
+                    <h3>🚼 Passeggini</h3>
+                    <table style="font-size: 0.85rem;">
+                        <tr><th>Campo</th><th>Esempio</th></tr>
+                        <tr><td>Peso passeggino</td><td>3.8 kg</td></tr>
+                        <tr><td>Peso max bambino</td><td>22 kg</td></tr>
+                        <tr><td>Tipo chiusura</td><td>Libro / Ombrello</td></tr>
+                        <tr><td>Accessori inclusi</td><td>Parapioggia, borsa</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 26: Come compilare -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <span class="live-demo-tag">Demo live</span>
+            <h2>Come compilare i metafield</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div>
+                    <h3>In Infinity (dove si lavora)</h3>
+                    <ol style="font-size: 1.05rem;">
+                        <li>Apri la scheda prodotto in Infinity</li>
+                        <li>Compila <strong>titolo</strong> e <strong>descrizione</strong></li>
+                        <li>Compila <strong>meta title</strong> e <strong>meta description</strong></li>
+                        <li>Compila <strong>tutti gli attributi</strong> (eta, materiale, peso, dimensioni, ecc.)</li>
+                        <li>Salva → il middleware sincronizza su Shopify</li>
+                    </ol>
+                    <h3 style="margin-top: 24px;">In Shopify (solo verifica)</h3>
+                    <ol style="font-size: 1.05rem;">
+                        <li>Apri scheda prodotto su Shopify</li>
+                        <li>Controlla che i dati siano arrivati correttamente</li>
+                        <li>Verifica l'anteprima SEO in fondo alla pagina</li>
+                    </ol>
+                </div>
+                <div>
+                    <div class="note-box note-success" style="font-size: 0.95rem;">
+                        <strong>Da dove prendere i dati?</strong>
+                        <ul style="margin-top: 8px; font-size: 0.9rem;">
+                            <li>Sito web del produttore</li>
+                            <li>Scheda tecnica PDF</li>
+                            <li>Confezione del prodotto</li>
+                            <li>Foto della confezione (con AI!)</li>
+                        </ul>
+                    </div>
+                    <div class="note-box note-warning" style="font-size: 0.95rem;">
+                        <strong>Regola importante:</strong> Si lavora SEMPRE in Infinity. I dati su Shopify NON vanno modificati a mano (verrebbero sovrascritti alla prossima sincronizzazione).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PARTE 5: SCRIVERE CON L'AI                 -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 27: Section divider AI -->
+    <div class="slide bg-gradient-dark">
+        <span class="section-number" style="opacity: 0.06;">05</span>
+        <div class="content">
+            <p class="label">Parte 5</p>
+            <h1>Scrivere con l'AI<br><span class="highlight">Prompt Template</span></h1>
+            <p class="subtitle">Come usare ChatGPT, Gemini e Copilot per velocizzare l'enrichment</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 28: Perche usare AI -->
+    <div class="slide bg-dark">
+        <div class="content">
+            <h2>Perche usare l'AI per le schede prodotto</h2>
+            <div class="three-cols" style="margin-top: 40px; text-align: center;">
+                <div class="card-dark">
+                    <div class="icon-block">⚡</div>
+                    <h3>Velocita</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">Una descrizione in 30 secondi invece di 10 minuti</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">🎯</div>
+                    <h3>Coerenza</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">Stesso tono di voce su centinaia di schede</p>
+                </div>
+                <div class="card-dark">
+                    <div class="icon-block">📈</div>
+                    <h3>Scalabilita</h3>
+                    <p style="font-size: 1rem; opacity: 0.85;">Arricchire il catalogo intero diventa fattibile</p>
+                </div>
+            </div>
+            <div style="margin-top: 36px;">
+                <h3 style="margin-bottom: 16px;">Tool consigliati</h3>
+                <span class="badge badge-green" style="font-size: 1rem; padding: 10px 20px;">ChatGPT</span>
+                <span class="badge badge-blue" style="font-size: 1rem; padding: 10px 20px;">Gemini</span>
+                <span class="badge badge-yellow" style="font-size: 1rem; padding: 10px 20px;">Copilot</span>
+            </div>
+            <p style="margin-top: 20px; opacity: 0.7; font-size: 1rem;">Tutti funzionano bene. Usa quello con cui ti trovi meglio.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 29: Prompt 1 - Meta Title -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Prompt Template #1</p>
+            <h2>Generare un Meta Title</h2>
+            <div class="prompt-box">
+Sei un esperto SEO per un e-commerce di articoli per bambini.<br><br>
+Genera un meta title per questo prodotto:<br>
+- Nome: <span style="color: #9cdcfe;">[NOME PRODOTTO]</span><br>
+- Brand: <span style="color: #9cdcfe;">[BRAND]</span><br>
+- Categoria: <span style="color: #9cdcfe;">[CATEGORIA]</span><br>
+- Caratteristica chiave: <span style="color: #9cdcfe;">[ATTRIBUTO]</span><br><br>
+Regole: max 60 caratteri, keyword all'inizio, includi brand,<br>
+chiudi con "| Giochi3". Genera 3 varianti.
+            </div>
+            <div class="note-box note-success" style="font-size: 0.9rem;">
+                <strong>Output esempio:</strong> 1) Seggiolone Evolutivo 5in1 Chicco Polly Progres5 | Giochi3 · 2) Chicco Polly Progres5 Seggiolone 5in1 | Giochi3 · 3) Seggiolone Chicco Polly da 0 a 3 Anni | Giochi3
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 30: Prompt 2 - Meta Description -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-secondary);">Prompt Template #2</p>
+            <h2>Generare una Meta Description</h2>
+            <div class="prompt-box">
+Scrivi una meta description per un e-commerce bambini.<br><br>
+Prodotto: <span style="color: #9cdcfe;">[NOME]</span><br>
+Brand: <span style="color: #9cdcfe;">[BRAND]</span><br>
+Caratteristiche: <span style="color: #9cdcfe;">[LISTA]</span><br>
+Eta: <span style="color: #9cdcfe;">[ETA]</span><br><br>
+Regole: max 155 caratteri (CONTA!), keyword rilevante,<br>
+un beneficio concreto, chiudi con CTA o vantaggio.<br>
+Tono: informativo, rassicurante. Genera 3 varianti con conteggio.
+            </div>
+            <div class="note-box note-info" style="font-size: 0.9rem;">
+                <strong>💡 Tip:</strong> Chiedi esplicitamente di contare i caratteri. L'AI spesso sfora — controlla sempre con charactercount.com
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 31: Prompt 3 - Riscrivere descrizione body -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-accent);">Prompt Template #3</p>
+            <h2>Riscrivere la descrizione prodotto</h2>
+            <div class="prompt-box">
+Riscrivi questa descrizione per un e-commerce bambini.<br><br>
+Descrizione originale: <span style="color: #9cdcfe;">"[INCOLLA TESTO GREZZO]"</span><br><br>
+Regole:<br>
+- 150-300 parole<br>
+- Primo paragrafo: beneficio + keyword<br>
+- Elenco puntato: 4-6 caratteristiche tecniche<br>
+- Finale: per chi e adatto + rassicurazione<br>
+- Tono: caldo, da "consulente esperto per genitori"<br>
+- NON inventare dati tecnici non presenti nell'originale<br>
+- Keyword da includere: <span style="color: #9cdcfe;">[KW1], [KW2]</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 32: Prompt 4 - Estrarre attributi -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-success);">Prompt Template #4</p>
+            <h2>Estrarre attributi per i metafield</h2>
+            <div class="prompt-box">
+Da questa descrizione, estrai gli attributi in formato tabella:<br><br>
+<span style="color: #9cdcfe;">"[INCOLLA DESCRIZIONE O DATI CONFEZIONE]"</span><br><br>
+Estrai (se presenti, altrimenti "N/D"):<br>
+- Eta minima / massima consigliata<br>
+- Materiale principale<br>
+- Peso e Dimensioni (LxPxH)<br>
+- Certificazioni (CE, GOTS, Oeko-Tex...)<br>
+- Istruzioni lavaggio (se tessile)<br>
+- Accessori inclusi<br>
+- Compatibilita (se accessorio)
+            </div>
+            <div class="note-box note-success" style="font-size: 0.9rem;">
+                <strong>💡 Tip Gemini:</strong> Puoi caricare la <strong>foto della confezione</strong> e chiedere di estrarre gli attributi dall'immagine!
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 33: Alt text blog + nota prodotti -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <p class="label" style="color: var(--color-primary);">Focus SEO</p>
+            <h2>Alt Text: prodotti vs blog</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div class="card" style="border-left: 4px solid var(--color-success);">
+                    <h3 style="color: var(--color-success);">🖼️ Immagini Prodotto</h3>
+                    <p style="font-size: 1.05rem; margin-top: 12px;">L'alt text viene impostato <strong>automaticamente dall'algoritmo</strong> durante la sincronizzazione da Infinity.</p>
+                    <div class="note-box note-success" style="font-size: 0.9rem;">
+                        <strong>Non dovete modificarlo.</strong> E gia ottimizzato con nome prodotto + brand + attributi.
+                    </div>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--color-primary);">
+                    <h3 style="color: var(--color-primary);">📝 Immagini Blog</h3>
+                    <p style="font-size: 1.05rem; margin-top: 12px;">Le immagini degli articoli del blog <strong>richiedono alt text manuale</strong> e hanno <strong>forte valenza SEO</strong>.</p>
+                    <div style="margin-top: 12px; font-size: 0.95rem;">
+                        <strong>Regole:</strong>
+                        <ul style="margin-top: 8px; font-size: 0.9rem;">
+                            <li>Max 125 caratteri</li>
+                            <li>Descrivi cosa si vede nell'immagine</li>
+                            <li>Includi keyword dell'articolo</li>
+                            <li>NO "immagine di" o "foto di"</li>
+                        </ul>
+                    </div>
+                    <div class="note-box note-info" style="font-size: 0.9rem;">
+                        <strong>Esempio:</strong> "Bambina 2 anni gioca con torre impilabile in legno colorata Montessori"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 34: Best practice AI -->
+    <div class="slide bg-dark">
+        <div class="content content-left">
+            <h2>⚠️ Regole d'oro per usare l'AI</h2>
+            <div class="two-cols" style="margin-top: 28px;">
+                <div>
+                    <table style="font-size: 0.95rem;">
+                        <tr><th>Regola</th><th>Perche</th></tr>
+                        <tr><td><strong>Rileggi SEMPRE</strong></td><td>L'AI puo inventare dati tecnici</td></tr>
+                        <tr><td><strong>Mai copiare uguale</strong> su piu prodotti</td><td>Google penalizza i duplicati</td></tr>
+                        <tr><td><strong>Verifica i numeri</strong></td><td>Pesi, misure, eta: controlla dalla fonte</td></tr>
+                        <tr><td><strong>Personalizza</strong></td><td>L'output AI e una bozza, non il testo finale</td></tr>
+                        <tr><td><strong>Tone of voice</strong></td><td>Mantieni il tono Giochi3: caldo, esperto</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <div class="card-dark" style="text-align: center; padding: 32px;">
+                        <div class="icon-block">🤖 → ✍️ → ✅</div>
+                        <h3 style="margin-top: 12px;">Il workflow giusto</h3>
+                        <p style="font-size: 1.05rem; opacity: 0.9; margin-top: 8px;">
+                            AI genera la bozza<br>
+                            → Tu rivedi e personalizzi<br>
+                            → Pubblica solo dopo verifica
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PARTE 6: ERRORI E PRIORITA                 -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 35: Errori comuni -->
+    <div class="slide bg-gradient-warm">
+        <span class="section-number" style="opacity: 0.06;">06</span>
+        <div class="content">
+            <p class="label">Parte 6</p>
+            <h1>Errori Comuni<br><span style="color: rgba(255,255,255,0.9);">e Prioritizzazione</span></h1>
+        </div>
+    </div>
+
+    <!-- SLIDE 36: Tabella errori -->
+    <div class="slide bg-white">
+        <div class="content content-left">
+            <h2>⚠️ Gli errori SEO piu frequenti</h2>
+            <table style="margin-top: 20px; font-size: 0.95rem;">
+                <tr><th>Errore</th><th>Conseguenza</th><th>Soluzione</th></tr>
+                <tr><td>SEO vuota</td><td>Google inventa title a caso</td><td>Compilare SEMPRE i 3 campi</td></tr>
+                <tr><td>Stessa description su piu prodotti</td><td>Penalizzazione duplicati</td><td>Personalizzare per ogni prodotto</td></tr>
+                <tr><td>Title > 60 caratteri</td><td>Tagliato con "..."</td><td>Conta sempre i caratteri</td></tr>
+                <tr><td>URL con codici gestionale</td><td>Non indicizzabile, brutto</td><td>Riscrivere con keyword</td></tr>
+                <tr><td>Metafield vuoti</td><td>Filtri non funzionano</td><td>Compilare almeno i campi base</td></tr>
+                <tr><td>Dati inventati dall'AI</td><td>Reclami e resi</td><td>Verificare SEMPRE dalla fonte</td></tr>
+                <tr><td>Cambiare URL senza redirect</td><td>Pagina 404, perdi ranking</td><td>Redirect PRIMA di cambiare</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- SLIDE 37: Contenuti duplicati -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <h2>Contenuti duplicati e cannibalizzazione</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div>
+                    <h3>Il problema</h3>
+                    <p style="font-size: 1.05rem;">Se 10 body simili hanno la stessa descrizione e lo stesso title, Google non sa quale mostrare → nessuno si posiziona bene.</p>
+                    <h3 style="margin-top: 20px;">La soluzione</h3>
+                    <table style="font-size: 0.9rem;">
+                        <tr><th>Situazione</th><th>Cosa fare</th></tr>
+                        <tr><td>Prodotti simili, stesso brand</td><td>Differenzia con attributo unico</td></tr>
+                        <tr><td>Varianti colore/taglia</td><td>UN prodotto con varianti, non separati</td></tr>
+                        <tr><td>Collezione vs prodotto</td><td>Keyword generiche → collezione<br>Keyword specifiche → prodotto</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h3>Esempio pratico</h3>
+                    <div style="padding: 16px; background: #F8D7DA; border-radius: 8px; margin-bottom: 12px;">
+                        <p style="font-size: 0.95rem;"><strong>❌</strong> "Body Neonato Cotone | Giochi3" su 15 body diversi</p>
+                    </div>
+                    <div style="padding: 16px; background: #D4EDDA; border-radius: 8px; margin-bottom: 8px;">
+                        <p style="font-size: 0.95rem;"><strong>✅</strong> "Body Neonato Cotone Bio Manica Lunga - Chicco | Giochi3"</p>
+                    </div>
+                    <div style="padding: 16px; background: #D4EDDA; border-radius: 8px;">
+                        <p style="font-size: 0.95rem;"><strong>✅</strong> "Body Neonato Manica Corta Fantasia - Petit Bateau | Giochi3"</p>
+                    </div>
+                    <p style="margin-top: 16px; font-size: 0.95rem; color: var(--color-gray-600);">Ogni title deve essere <strong>unico</strong> — il brand + attributo specifico e la chiave.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PARTE 7: RICH SNIPPET + INTERNAL LINKING   -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 39: Rich Snippet -->
+    <div class="slide bg-white">
+        <div class="content">
+            <h2>Rich Snippet: farsi notare su Google</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 24px;">Quando compili bene tutti i campi, Google puo mostrare informazioni extra nei risultati:</p>
+            <div class="google-result" style="max-width: 650px;">
+                <div class="gr-title">Seggiolone Evolutivo 5in1 Chicco Polly Progres5 | Giochi3</div>
+                <div class="gr-url">giochi3.it/products/chicco-polly-progres5-seggiolone-evolutivo</div>
+                <div style="color: #70757a; font-size: 0.85rem; margin-bottom: 4px;">⭐⭐⭐⭐⭐ 4.8 (127 recensioni) · <strong>€189,00</strong> · Disponibile</div>
+                <div class="gr-desc">Seggiolone 5in1 che cresce con il tuo bambino. Vassoio lavabile, 4 reclinazioni. Da 0 a 3 anni. Spedizione gratis sopra €49.</div>
+            </div>
+            <div class="two-cols" style="margin-top: 28px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <div class="note-box note-success" style="margin-top: 0;">
+                    <strong>Cosa devi fare tu:</strong> Compilare correttamente tutti i campi e metafield. Il tema emette i dati strutturati automaticamente.
+                </div>
+                <div class="note-box note-info" style="margin-top: 0;">
+                    <strong>Servono anche:</strong> App recensioni (per le stelle) e prezzo/disponibilita (gia dal middleware).
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Internal Linking (da fare su Shopify) -->
+    <div class="slide bg-light">
+        <div class="content content-left">
+            <span class="live-demo-tag">Su Shopify</span>
+            <h2>Internal Linking nella descrizione prodotto</h2>
+            <p style="font-size: 1.05rem; margin-bottom: 20px;">Questa e un'<strong>ottimizzazione da fare direttamente su Shopify</strong>, nella descrizione del prodotto (non in Infinity).</p>
+            <div class="two-cols" style="margin-top: 16px;">
+                <div>
+                    <h3>Perche e importante</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li>Aiuta Google a scoprire altre pagine</li>
+                        <li>Distribuisce "autorità SEO" nel sito</li>
+                        <li>Aiuta il cliente a trovare prodotti correlati</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">Cosa linkare nella descrizione</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li>La <strong>collezione</strong> di appartenenza</li>
+                        <li><strong>Prodotti complementari</strong> (accessori, ricambi)</li>
+                        <li><strong>Guide blog</strong> correlate</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Esempio pratico</h3>
+                    <div class="schema-box" style="font-size: 0.9rem; line-height: 1.7;">
+                        Nella descrizione di un passeggino:<br><br>
+                        "Perfetto da abbinare al nostro <span style="color: var(--color-primary); text-decoration: underline;">sacco invernale per passeggino</span> per le uscite nei mesi freddi.<br><br>
+                        Scopri anche la <span style="color: var(--color-primary); text-decoration: underline;">guida alla scelta del passeggino</span> sul nostro blog."
+                    </div>
+                    <div class="note-box note-warning" style="font-size: 0.9rem;">
+                        <strong>Non esagerare:</strong> 2-3 link per descrizione sono sufficienti. Devono essere naturali e utili.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- CHIUSURA                                    -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <!-- SLIDE 41: Checklist finale -->
+    <div class="slide bg-gradient-dark">
+        <div class="content content-left">
+            <p class="label">Checklist</p>
+            <h2>Scheda prodotto "pronta" ✓</h2>
+            <div class="two-cols" style="margin-top: 24px;">
+                <div>
+                    <ul class="checklist" style="font-size: 1rem;">
+                        <li>Meta title compilato (max 60 car., keyword inizio)</li>
+                        <li>Meta description compilata (max 155 car., CTA)</li>
+                        <li>URL handle pulito (keyword, no codici)</li>
+                        <li>Descrizione body arricchita (min 100 parole)</li>
+                        <li>Metafield eta min/max compilati</li>
+                        <li>Metafield materiale compilato</li>
+                        <li>Metafield peso e dimensioni compilati</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="checklist" style="font-size: 1rem;">
+                        <li>Metafield specifici di categoria compilati</li>
+                        <li>Almeno 2 immagini (prodotto + ambientata)</li>
+                        <li>Tag manuali aggiunti se necessari</li>
+                        <li>Nessun duplicato con prodotti simili</li>
+                        <li>Anteprima SEO verificata</li>
+                    </ul>
+                    <p style="margin-top: 12px; font-size: 0.9rem; opacity: 0.7;">💡 Alt text immagini prodotto: automatico (dall'algoritmo)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- SLIDE: Fine -->
+    <div class="slide bg-gradient-dark">
+        <div class="content">
+            <p class="label">Fine della Lezione</p>
+            <h1>Grazie!</h1>
+            <p class="subtitle" style="font-size: 1.3rem; margin-top: 8px;">SEO Scheda Prodotto e Enrichment Metafield</p>
+            <p style="margin-top: 40px; opacity: 0.5; font-size: 0.9rem;">Premi ← per tornare indietro · <a href="#" onclick="goToSlide(0); return false;" style="color: var(--color-accent); text-decoration: underline;">Torna all'indice</a></p>
+        </div>
+    </div>
+
+    <!-- Slide counter -->
+    <div class="slide-counter" id="slideCounter"></div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let current = 0;
+
+        function showSlide(n) {
+            if (n < 0) n = 0;
+            if (n >= slides.length) n = slides.length - 1;
+            slides[current].classList.remove('active');
+            current = n;
+            slides[current].classList.add('active');
+            updateProgress();
+            updateCounter();
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        function updateProgress() {
+            const pct = ((current + 1) / slides.length) * 100;
+            document.getElementById('progressBar').style.width = pct + '%';
+        }
+
+        function updateCounter() {
+            document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + slides.length;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                showSlide(current + 1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                showSlide(current - 1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(slides.length - 1);
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('a')) return;
+            const x = e.clientX;
+            const w = window.innerWidth;
+            if (x > w * 0.65) showSlide(current + 1);
+            else if (x < w * 0.35) showSlide(current - 1);
+        });
+
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) showSlide(current + 1);
+                else showSlide(current - 1);
+            }
+        });
+
+        updateProgress();
+        updateCounter();
+    </script>
+</body>
+</html>
